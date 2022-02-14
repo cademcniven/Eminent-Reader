@@ -1,2 +1,3 @@
-# Eminent-Reader
- A Japanese webnovel downloader and reader
+# WIP
+
+If you can see this, the basic functionality isn't finished yet.
