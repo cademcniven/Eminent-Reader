@@ -12,9 +12,7 @@ async function postData(url = '', data = {}) {
 }
 
 function DownloadWebnovel() {
-    console.log("in download web novel")
-
-    const data = { url: 'https://ncode.syosetu.com/n4816he/' }
+    const data = { url: document.getElementById("novelUrl").value }
 
     postData("/webnovel", data).then(data => {
         console.log(data)

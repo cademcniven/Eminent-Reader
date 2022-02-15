@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{title}}</title>
+    </head>
+    <body>
+        <main>
+            <h1>{{title}}</h1>
+            <p class="novelInfo">
+                <span class="author">Author: {{author}}</span>
+                <span class="chapters">Chapters: {{chapters}}</span>
+                <a href="{{url}}" class="url">{{url}}</a>
+            </p>
+            <p class="description">{{description}}</p>
+            <p class="chapters">
+                {% for chapter in chapterData -%}
+                <a href="/webnovels/{{key}}/{{chapter.chapter_number}}">{{chapter.chapter_number}}
+                    - {{chapter.title}}</a>
+                <br>
+                {%- endfor %}
+            </p>
+        </main>
+    </body>
+</html>

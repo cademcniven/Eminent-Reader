@@ -1,8 +1,14 @@
 const express = require('express')
 const cors = require('cors')
+const nunjucks = require('nunjucks')
 
 const app = express()
 const PORT = process.env.PORT || 3069
+
+nunjucks.configure('html', {
+    autoescape: true,
+    express: app
+})
 
 app.use(cors())
 app.use(
@@ -11,11 +17,14 @@ app.use(
     })
 )
 app.use(express.json())
+app.engine('html', nunjucks.render)
+app.set('view_engine', 'html')
 
-var mountRoutes = require('./api')
-mountRoutes(app)
+var index = require('./api/index')
+var webnovel = require('./api/webnovel')
+app.use('/', index)
+app.use('/webnovel', webnovel)
 
-app.use(express.static('html'))
 app.use(express.static('css'))
 app.use(express.static('js'))
 

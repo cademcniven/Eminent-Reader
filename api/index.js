@@ -1,5 +1,8 @@
-const webnovel = require('./webnovel')
+const Router = require('express-promise-router')
 
-module.exports = app => {
-    app.use('/webnovel', webnovel)
-}
+const router = new Router()
+module.exports = router
+
+router.get('/', async (req, res) => {
+    res.status(200).render("index.html")
+})

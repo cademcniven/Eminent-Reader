@@ -5,6 +5,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.2",
     "express-promise-router": "^4.1.1",
+    "nunjucks": "^3.2.3",
+    "nunjucks-to-html": "^1.1.0",
     "path": "^0.12.7"
   }
 }

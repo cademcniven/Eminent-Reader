@@ -1,9 +1,7 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
 
-const GetHostname = (url) => {
-    return new URL(url).hostname
-}
+const fileLogic = require('./fileLogic')
 
 exports.DownloadNovel = function (url) {
     if (!url) {
@@ -14,33 +12,37 @@ exports.DownloadNovel = function (url) {
     console.log(`Attempting to download novel from ${url}`)
 
     let hostname = GetHostname(url)
-    console.log(hostname)
-
     switch (hostname) {
         case "ncode.syosetu.com":
-            ScrapeNovel(url, ScrapeSyosetu)
+            AxiosGetHtml(url).then(data => ScrapeSyosetu(data, url))
             break
         case "kakuyomu.jp":
-            ScrapeNovel(url, ScrapeKakuyomi)
+            AxiosGetHtml(url).then(data => ScrapeKakuyomu(data, url))
             break
         default:
             console.log("Provided url is from an unsupported host")
     }
 }
 
-function ScrapeNovel(url, callback) {
-    axios.get(url, GetAxiosHeaders()).then(({ data }) => {
-        callback(data)
-    }).catch(function (error) {
-        HandleAxiosError(error)
-    })
+const Sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+const GetHostname = (url) => {
+    return new URL(url).hostname
 }
 
-function GetAxiosHeaders() {
+const AxiosGetHtml = async url => {
+    const { data } = await axios.get(url, GetAxiosHeaders()).catch(function (error) {
+        HandleAxiosError(error, url)
+    })
+
+    return data
+}
+
+const GetAxiosHeaders = () => {
     return { headers: { 'User-Agent': 'Mozilla/5.0' } }
 }
 
-function HandleAxiosError(error) {
+const HandleAxiosError = (error, url) => {
     console.log(`The following error occured while trying to connect to ${url}:`)
     if (error.response) {
         // Request made and server responded
@@ -56,25 +58,57 @@ function HandleAxiosError(error) {
     }
 }
 
-function ScrapeSyosetu(data) {
+const ScrapeSyosetu = async (data, url) => {
     const $ = cheerio.load(data)
+    const baseUrl = "https://" + GetHostname(url)
 
-    let novelMetadata = GetSyosetuNovelMetadata(data)
+    let novelMetadata = GetSyosetuNovelMetadata(data, url)
+    fileLogic.UpdateNovel(novelMetadata)
 
-    console.log(novelMetadata)
+    let chapterUrls = []
+    $(".index_box a").each((i, link) => {
+        let fullUrl = baseUrl + link.attribs.href
+        chapterUrls.push(fullUrl)
+    })
+
+    let chapterMetadata = []
+    for (let i = 0; i < chapterUrls.length; ++i) {
+        AxiosGetHtml(chapterUrls[i]).then(data => {
+            chapterMetadata.push(DownloadSyosetuChapter(data, i, novelMetadata))
+        })
+        await Sleep(4000) //so we don't get blocked from connecting too many times
+    }
+
+    novelMetadata.chapterData = chapterMetadata
+    fileLogic.UpdateMetadata(novelMetadata)
 }
 
-function GetSyosetuNovelMetadata(data) {
+const GetSyosetuNovelMetadata = (data, url) => {
     const $ = cheerio.load(data)
 
     return {
         "title": $(".novel_title").text(),
         "description": $("#novel_ex").html(),
         "author": $(".novel_writername a").text(),
-        "chapters": $(".index_box a").length
+        "chapters": $(".index_box a").length,
+        "url": url,
+        "key": url.split('/')[3] //ncode
     }
 }
 
-function ScrapeKakuyomi(url) {
+const DownloadSyosetuChapter = (data, index, metaData) => {
+    const $ = cheerio.load(data)
+
+    let chapterData = {
+        "title": $(".novel_subtitle").text(),
+        "chapter": $("#novel_honbun").text()
+    }
+
+    fileLogic.DownloadChapter(chapterData, index + 1, metaData)
+
+    return { "title": chapterData.title, "chapter_number": index + 1 }
+}
+
+function ScrapeKakuyomu(url) {
 
 }
