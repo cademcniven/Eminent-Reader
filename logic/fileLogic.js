@@ -33,7 +33,7 @@ exports.DownloadChapter = function (chapterData, index, metaData) {
 
     console.log(`Downloading chapter ${index}/${metaData.chapters} of ${metaData.title}`)
 
-    fs.writeFileSync(`${path}/${chapterData.title}.json`, JSON.stringify(chapterData), error => {
+    fs.writeFileSync(`${path}/${index}.json`, JSON.stringify(chapterData), error => {
         if (error)
             console.log(`Received the following error while trying to write ${metaData.title} chapter ${index}: ${error}`)
     })

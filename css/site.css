@@ -1,0 +1,72 @@
+@font-face {
+    font-family: "Noto Serif JP";
+    src: local("Noto Serif JP") url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap");
+}
+
+/*************************
+Global Styling
+**************************/
+html {
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+}
+
+html,
+body {
+    min-height: 100%;
+    margin: 0;
+}
+
+/* 
+    Avoid Text Overflows
+*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+/*
+    1. Remove the bottom border in Chrome 57-
+    2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+abbr[title] {
+    /* 1 */
+    border-bottom: none;
+    /* 2 */
+    text-decoration: underline;
+    /* 2 */
+    text-decoration: underline dotted;
+}
+
+/*************************
+Reader Styling
+**************************/
+main:lang(ja) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 3vw;
+
+    font-family: "Noto Serif JP", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック", "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, serif;
+}
+
+main:lang(ja) h1 {
+    font-size: 3.5rem;
+    -webkit-font-smoothing: antialiased;
+}
+
+.chapter {
+    /* render newlines */
+    white-space: pre-line;
+    width: 100%;
+    font-size: 2rem;
+    max-width: 45ch;
+    margin: auto;
+    line-height: 150%;
+    -webkit-font-smoothing: antialiased;
+}

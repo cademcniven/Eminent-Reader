@@ -17,8 +17,8 @@
             </p>
             <p class="description">{{description}}</p>
             <p class="chapters">
-                {% for chapter in chapterData -%}
-                <a href="/webnovels/{{key}}/{{chapter.chapter_number}}">{{chapter.chapter_number}}
+                {% for chapter in chapter_data -%}
+                <a href="/webnovel/{{key}}/{{chapter.chapter_number}}">{{chapter.chapter_number}}
                     - {{chapter.title}}</a>
                 <br>
                 {%- endfor %}

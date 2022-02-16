@@ -76,10 +76,10 @@ const ScrapeSyosetu = async (data, url) => {
         AxiosGetHtml(chapterUrls[i]).then(data => {
             chapterMetadata.push(DownloadSyosetuChapter(data, i, novelMetadata))
         })
-        await Sleep(4000) //so we don't get blocked from connecting too many times
+        await Sleep(2000) //so we don't get blocked from connecting too many times
     }
 
-    novelMetadata.chapterData = chapterMetadata
+    novelMetadata.chapter_data = chapterMetadata
     fileLogic.UpdateMetadata(novelMetadata)
 }
 
