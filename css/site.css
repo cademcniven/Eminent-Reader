@@ -44,6 +44,29 @@ abbr[title] {
 }
 
 /*************************
+Novel Info Styling
+**************************/
+.description {
+    /* render newlines */
+    white-space: pre-line;
+    width: 100%;
+    font-size: 1.5rem;
+    max-width: max(45ch, 60%);
+    margin: auto;
+    line-height: 150%;
+    -webkit-font-smoothing: antialiased;
+}
+
+.descriptionLineBreak {
+    margin: 2rem 0;
+}
+
+.chapters {
+    font-size: 1.5rem;
+    width: max(45ch, 60%);
+}
+
+/*************************
 Reader Styling
 **************************/
 main:lang(ja) {
@@ -51,7 +74,6 @@ main:lang(ja) {
     flex-direction: column;
     align-items: center;
     padding: 0 3vw;
-
     font-family: "Noto Serif JP", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック", "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, serif;
 }
 
@@ -69,4 +91,9 @@ main:lang(ja) h1 {
     margin: auto;
     line-height: 150%;
     -webkit-font-smoothing: antialiased;
+}
+
+footer {
+    text-align: center;
+    font-size: 1.5rem;
 }

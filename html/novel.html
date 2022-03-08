@@ -1,21 +1,26 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="theme-color" content="#ffffff">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../site.css">
         <title>{{title}}</title>
     </head>
     <body>
-        <main>
+        <main lang="ja">
             <h1>{{title}}</h1>
             <p class="novelInfo">
-                <span class="author">Author: {{author}}</span>
-                <span class="chapters">Chapters: {{chapters}}</span>
+                <div class="author">Author: {{author}}</div>
+                <div class="chapterCount">Chapters: {{chapters}}</div>
+                <div class="characterCount">Characters: {{characters}}</div>
                 <a href="{{url}}" class="url">{{url}}</a>
             </p>
             <p class="description">{{description}}</p>
+            <p class="descriptionLineBreak">
+                ＊
+            </p>
             <p class="chapters">
                 {% for chapter in chapter_data -%}
                 <a href="/webnovel/{{key}}/{{chapter.chapter_number}}">{{chapter.chapter_number}}

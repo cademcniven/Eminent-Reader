@@ -80,6 +80,7 @@ const ScrapeSyosetu = async (data, url) => {
     }
 
     novelMetadata.chapter_data = chapterMetadata
+    novelMetadata.characters = GetNovelCharacterCount(chapterMetadata)
     fileLogic.UpdateMetadata(novelMetadata)
 }
 
@@ -91,6 +92,7 @@ const GetSyosetuNovelMetadata = (data, url) => {
         "description": $("#novel_ex").html(),
         "author": $(".novel_writername a").text(),
         "chapters": $(".index_box a").length,
+        "characters": 0,
         "url": url,
         "key": url.split('/')[3] //ncode
     }
@@ -104,9 +106,27 @@ const DownloadSyosetuChapter = (data, index, metaData) => {
         "chapter": $("#novel_honbun").text()
     }
 
+    chapterData.characters = GetChapterCharacterCount(chapterData.chapter)
+
     fileLogic.DownloadChapter(chapterData, index + 1, metaData)
 
-    return { "title": chapterData.title, "chapter_number": index + 1 }
+    return { "title": chapterData.title, "chapter_number": index + 1, "characters": chapterData.characters }
+}
+
+const punctuation = /[「」『』（）〔〕［］｛｝｟｠〈〉《》【】〖〗〘〙〚〛。、・…゠＝〜…‥•◦﹅﹆※＊〽〓♪♫♬♩]/g
+
+const GetChapterCharacterCount = (text) => {
+    return text.replace(punctuation, '').length
+}
+
+const GetNovelCharacterCount = (chapterMetadata) => {
+    let characters = 0
+
+    for (let chapter of chapterMetadata) {
+        characters += chapter.characters
+    }
+
+    return characters
 }
 
 function ScrapeKakuyomu(url) {
