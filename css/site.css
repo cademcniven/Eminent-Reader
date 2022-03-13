@@ -43,6 +43,14 @@ abbr[title] {
     text-decoration: underline dotted;
 }
 
+/*
+    Hide anchor tags with no href
+    This is used for Prev/Next chapter buttons in the reader
+*/
+a:not([href]) {
+    display: none;
+}
+
 /*************************
 Novel Info Styling
 **************************/
@@ -91,6 +99,10 @@ main:lang(ja) h1 {
     margin: auto;
     line-height: 150%;
     -webkit-font-smoothing: antialiased;
+}
+
+.chapterControls {
+    font-size: 1.5rem;
 }
 
 footer {
