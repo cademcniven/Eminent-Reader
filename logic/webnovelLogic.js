@@ -103,7 +103,8 @@ const DownloadSyosetuChapter = (data, index, metaData) => {
 
     let chapterData = {
         "title": $(".novel_subtitle").text(),
-        "chapter": $("#novel_honbun").text()
+        "chapter": $("#novel_honbun").text(),
+        "chapterNumber": index + 1
     }
 
     chapterData.characters = GetChapterCharacterCount(chapterData.chapter)

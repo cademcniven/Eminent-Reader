@@ -60,13 +60,9 @@ Novel Info Styling
     width: 100%;
     font-size: 1.5rem;
     max-width: max(45ch, 60%);
-    margin: auto;
+    margin: 4rem auto;
     line-height: 150%;
     -webkit-font-smoothing: antialiased;
-}
-
-.descriptionLineBreak {
-    margin: 2rem 0;
 }
 
 .chapters {
@@ -85,9 +81,20 @@ main:lang(ja) {
     font-family: "Noto Serif JP", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック", "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, serif;
 }
 
-main:lang(ja) h1 {
+.chapterNumber {
     font-size: 3.5rem;
+    margin-bottom: 0;
     -webkit-font-smoothing: antialiased;
+}
+
+.chapterTitle {
+    margin: 0;
+    font-size: 2rem;
+    border-bottom: 2px solid black;
+    -webkit-font-smoothing: antialiased;
+    width: 100%;
+    max-width: 45ch;
+    text-align: center;
 }
 
 .chapter {
@@ -103,9 +110,15 @@ main:lang(ja) h1 {
 
 .chapterControls {
     font-size: 1.5rem;
+    margin-bottom: 5rem;
 }
 
 footer {
-    text-align: center;
-    font-size: 1.5rem;
+    position: fixed;
+    height: 2rem;
+    bottom: 0;
+    display: grid;
+    place-items: center;
+    background-color: white;
+    width: 100vw;
 }

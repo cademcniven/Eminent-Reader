@@ -11,19 +11,16 @@
     <body>
         <main lang="ja">
             <h1>{{title}}</h1>
-            <p class="novelInfo">
-                <div class="author">Author: {{author}}</div>
-                <div class="chapterCount">Chapters: {{chapters}}</div>
-                <div class="characterCount">Characters: {{characters}}</div>
-                <a href="{{url}}" class="url">{{url}}</a>
-            </p>
+            <div class="author">Author: {{author}}</div>
+            <div class="chapterCount">Chapters: {{chapters}}</div>
+            <div class="characterCount">Characters: {{characters}}</div>
+            <a href="{{url}}" class="url">{{url}}</a>
+
             <p class="description">{{description}}</p>
-            <p class="descriptionLineBreak">
-                ＊
-            </p>
+
             <p class="chapters">
                 {% for chapter in chapter_data -%}
-                <a href="/webnovel/{{key}}/{{chapter.chapter_number}}">{{chapter.chapter_number}}
+                <a href="/webnovel/{{key}}/{{chapter.chapter_number}}">第{{chapter.chapter_number}}話
                     - {{chapter.title}}</a>
                 <br>
                 {%- endfor %}
