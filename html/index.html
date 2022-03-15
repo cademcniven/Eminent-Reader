@@ -12,7 +12,17 @@
         <input type="text" id="novelUrl" />
         <button onclick="DownloadWebnovel()">Click Me</button>
         <main>
-            <div id="library"></div>
+            <div id="library">
+                <ul>
+                    {% for novel in novels %}
+                    <li>
+                        <div><a href="/webnovel/{{novel.key}}">{{novel.title}}</a></div>
+                        <div>Chapters: {{novel.chapters}}</div>
+                        <div>Characters: {{novel.characters}}</div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </main>
     </body>
 </html>

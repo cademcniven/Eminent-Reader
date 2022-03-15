@@ -89,7 +89,7 @@ const GetSyosetuNovelMetadata = (data, url) => {
 
     return {
         "title": $(".novel_title").text(),
-        "description": $("#novel_ex").html(),
+        "description": $("#novel_ex").text(),
         "author": $(".novel_writername a").text(),
         "chapters": $(".index_box a").length,
         "characters": 0,

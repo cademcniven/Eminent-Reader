@@ -1,12 +1,13 @@
 const Router = require('express-promise-router')
-const logic = require('../logic/webnovelLogic')
+const webnovelLogic = require('../logic/webnovelLogic')
+
 const fs = require('fs')
 
 const router = new Router()
 module.exports = router
 
 router.post('/', async (req, res) => {
-    logic.DownloadNovel(req.body.url)
+    webnovelLogic.DownloadNovel(req.body.url)
     res.status(200).send("test")
 })
 
