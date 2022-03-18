@@ -1,13 +1,17 @@
 @font-face {
     font-family: "Noto Serif JP";
-    src: local("Noto Serif JP") url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap");
+    src: url("/fonts/NotoSerifJP-Regular.otf") format("opentype");
+    unicode-range: U+3000-30FF,
+U+FF00-FFEF,
+U+4E00-9FAF;
 }
 
 /*************************
 Global Styling
 **************************/
 :root {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", "Noto Serif JP", "ヒラギノ角ゴ Pro W3", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック", "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, sans-serif;
+    font-family: "Noto Serif JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", "ヒラギノ角ゴ Pro W3", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック", "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, sans-serif;
+    font-display: swap;
 }
 
 html {

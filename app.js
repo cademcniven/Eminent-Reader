@@ -27,6 +27,7 @@ app.use('/webnovel', webnovel)
 
 app.use(express.static('css'))
 app.use(express.static('js'))
+app.use("/fonts", express.static('./fonts'))
 
 app.listen(PORT, () => {
     console.log(`The Server is running at: http://localhost:${PORT}/`)
