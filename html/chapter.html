@@ -5,21 +5,33 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="theme-color" content="#ffffff">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="apple-touch-icon" sizes="180x180"
+            href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32"
+            href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16"
+            href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
         <link rel="stylesheet" href="../../site.css">
         <script src="../../chapter.js" type="text/javascript" defer></script>
-        <title>{{title}}</title>
+        <title>{{chapter.title}}</title>
     </head>
-    <body>
-        <main lang="ja">
-            <h1 class="chapterNumber">第{{chapterNumber}}話</h1>
-            <h2 class="chapterTitle">{{title}}</h2>
+    <body lang="ja">
+        <header class="chapterHeader">
+            <a href="/webnovel/{{novel.key}}">{{novel.title}}</a>
+        </header>
+        <main>
+            <h1 class="chapterNumber">第{{chapter.chapter_number}}話</h1>
+            <h2 class="chapterTitle">{{chapter.title}}</h2>
 
-            <p class="chapter">{{chapter}}</p>
+            <p class="chapter">{{chapter.chapter}}</p>
             <p class="chapterControls">
                 <a class="chapterBack">Prev</a>
                 <a class="chapterForward">Next</a>
             </p>
         </main>
-        <footer>Characters: {{characters}}</footer>
+        <footer>{{chapter.characters}}字 ・
+            累計{{novel.chapter_data[chapter.chapter_number -
+            1].cumulative_characters}}字</footer>
     </body>
 </html>

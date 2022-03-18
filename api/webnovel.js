@@ -22,11 +22,22 @@ router.get('/:novel', async (req, res) => {
 })
 
 router.get('/:novel/:chapter', async (req, res) => {
-    fs.readFile(`./novels/${req.params.novel}/${req.params.chapter}.json`, (error, data) => {
+    let metadata = {}
+
+    fs.readFile(`./novels/${req.params.novel}/metadata.json`, (error, data) => {
         if (error) {
             res.status(500).send(error)
         } else {
-            res.status(200).render('chapter.html', JSON.parse(data))
+            metadata["novel"] = JSON.parse(data)
+
+            fs.readFile(`./novels/${req.params.novel}/${req.params.chapter}.json`, (error, data) => {
+                if (error) {
+                    res.status(500).send(error)
+                } else {
+                    metadata["chapter"] = JSON.parse(data)
+                    res.status(200).render('chapter.html', metadata)
+                }
+            })
         }
     })
 })
