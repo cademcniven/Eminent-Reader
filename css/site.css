@@ -2,8 +2,8 @@
     font-family: "Noto Serif JP";
     src: url("/fonts/NotoSerifJP-Regular.otf") format("opentype");
     unicode-range: U+3000-30FF,
-U+FF00-FFEF,
-U+4E00-9FAF;
+        U+FF00-FFEF,
+        U+4E00-9FAF;
 }
 
 /*************************
@@ -101,7 +101,7 @@ Reader Styling
 
 .chapterNumber {
     font-size: 3.5rem;
-    margin-bottom: 0;
+    margin: 0;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -139,4 +139,5 @@ footer {
     place-items: center;
     background-color: white;
     width: 100vw;
+    z-index: 1000;
 }
