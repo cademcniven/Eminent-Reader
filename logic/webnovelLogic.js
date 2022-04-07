@@ -114,7 +114,8 @@ const DownloadSyosetuChapter = (data, index, metaData) => {
 
     let chapterData = {
         "title": $(".novel_subtitle").text(),
-        "chapter": $("#novel_honbun").text(),
+        //the regex removes all <br> elements and <p> elements that contain only whitespace
+        "chapter": $("#novel_honbun").html().replace(/(<|&lt;)br\s*\/*(>|&gt;)/g, ' ').replace(/<p.*> *<\/p>/g, ' '),
         "chapter_number": index + 1
     }
 

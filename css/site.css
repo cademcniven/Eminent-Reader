@@ -126,6 +126,10 @@ Reader Styling
     -webkit-font-smoothing: antialiased;
 }
 
+.chapter p {
+    margin: 0;
+}
+
 .chapterControls {
     font-size: 1.5rem;
     margin-bottom: 5rem;

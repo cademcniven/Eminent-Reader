@@ -16,7 +16,7 @@
         <script src="../../chapter.js" type="text/javascript" defer></script>
         <title>{{chapter.title}}</title>
     </head>
-    <body lang="ja" onscroll="UpdateScrollbar()">
+    <body lang="ja">
         <header class="chapterHeader">
             <a href="/webnovel/{{novel.key}}">{{novel.title}}</a>
         </header>
@@ -24,7 +24,7 @@
             <h1 class="chapterNumber">第{{chapter.chapter_number}}話</h1>
             <h2 class="chapterTitle">{{chapter.title}}</h2>
 
-            <p class="chapter">{{chapter.chapter}}</p>
+            <div class="chapter">{{chapter.chapter | safe}}</div>
             <p class="chapterControls">
                 <a class="chapterBack">Prev</a>
                 <a class="chapterForward">Next</a>
