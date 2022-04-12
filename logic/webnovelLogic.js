@@ -142,6 +142,70 @@ const GetNovelCharacterCount = (chapterMetadata) => {
     return characters
 }
 
-function ScrapeKakuyomu(url) {
+const ScrapeKakuyomu = async (data, url) => {
+    const $ = cheerio.load(data)
+    const baseUrl = "https://" + GetHostname(url)
 
+    let novelMetadata = GetKakuyomuNovelMetadata(data, url)
+    fileLogic.UpdateNovel(novelMetadata)
+
+    //get a list of all the chapters we need to download
+    let chapterUrls = []
+    $("a.widget-toc-episode-episodeTitle").each((i, link) => {
+        let fullUrl = baseUrl + link.attribs.href
+        chapterUrls.push(fullUrl)
+    })
+
+    //download the chapters and save partial metadata
+    let chapterMetadata = []
+    for (let i = 0; i < chapterUrls.length; ++i) {
+        AxiosGetHtml(chapterUrls[i]).then(data => {
+            chapterMetadata.push(DownloadKakuyomuChapter(data, i, novelMetadata))
+        })
+        await Sleep(2000) //so we don't get blocked from connecting too many times
+    }
+
+    //add cumulative character count to metadata
+    for (let i = 0; i < chapterUrls.length; ++i) {
+        if (i === 0)
+            chapterMetadata[i].cumulative_characters = chapterMetadata[i].characters
+        else
+            chapterMetadata[i].cumulative_characters = chapterMetadata[i].characters + chapterMetadata[i - 1].cumulative_characters
+    }
+
+    novelMetadata.chapter_data = chapterMetadata
+    novelMetadata.characters = GetNovelCharacterCount(chapterMetadata)
+    fileLogic.UpdateMetadata(novelMetadata)
+}
+
+const GetKakuyomuNovelMetadata = (data, url) => {
+    const $ = cheerio.load(data)
+
+    return {
+        "title": $("#workTitle").text(),
+        "description": $("#introduction").text(),
+        "author": $("#workAuthor-activityName").text(),
+        "chapters": $(".widget-toc-episode").length,
+        "characters": 0,
+        "url": url,
+        "key": url.split('/')[4], //ncode
+        "last_updated": Date.now()
+    }
+}
+
+const DownloadKakuyomuChapter = (data, index, metaData) => {
+    const $ = cheerio.load(data)
+
+    let chapterData = {
+        "title": $(".widget-episodeTitle").text(),
+        //the regex removes all <br> elements and <p> elements that contain only whitespace
+        "chapter": $(".widget-episodeBody").html().replace(/(<|&lt;)br\s*\/*(>|&gt;)/g, ' ').replace(/<p.*> *<\/p>/g, ' '),
+        "chapter_number": index + 1
+    }
+
+    chapterData.characters = GetChapterCharacterCount(chapterData.chapter)
+
+    fileLogic.DownloadChapter(chapterData, index + 1, metaData)
+
+    return { "title": chapterData.title, "chapter_number": index + 1, "characters": chapterData.characters }
 }
