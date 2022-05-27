@@ -45,20 +45,13 @@ exports.GetAllNovels = () => {
     if (!folder.isDirectory()) {
       continue
     }
-    const metaData = GetNovelMetaData(folder)
-    if (metaData) {
+    try {
+      const metaData = fs.readFileSync(`${rootFolder}/${folder.name}/metadata.json`, 'utf8')
       novels.push(JSON.parse(metaData))
+    } catch (error) {
+      console.log(error)
     }
   }
 
   return novels
-}
-
-const GetNovelMetaData = key => {
-  try {
-    return fs.readFileSync(`${rootFolder}/${key}/metadata.json`, 'utf8')
-  } catch (error) {
-    console.log(error)
-    return null
-  }
 }
