@@ -13,7 +13,7 @@ exports.DownloadNovel = async url => {
 
   const hostname = GetHostname(url)
   if (scrapers.has(hostname)) {
-    scrapers.get(hostname)(await AxiosGetHtml(url))
+    scrapers.get(hostname)(cheerio.load(await AxiosGetHtml(url)), url)
   } else {
     console.log('Provided url is from an unsupported host')
   }
@@ -26,8 +26,7 @@ const axiosHeaders = { headers: { 'User-Agent': 'Mozilla/5.0' } }
 
 const AxiosGetHtml = async url => {
   try {
-    const { data } = await axios.get(url, axiosHeaders)
-    return data
+    return (await axios.get(url, axiosHeaders)).data
   } catch (error) {
     console.log(`The following error occured while trying to connect to ${url}:`)
     if (error.response) {
@@ -46,10 +45,9 @@ const AxiosGetHtml = async url => {
 }
 
 const scrapers = new Map()
-scrapers.set('ncode.syosetu.com', async (data, url) => {
+scrapers.set('ncode.syosetu.com', async ($, url) => {
   const baseUrl = 'https://' + GetHostname(url)
 
-  let $ = cheerio.load(data)
   const novelMetadata = {
     title: $('.novel_title').text(),
     description: $('#novel_ex').text(),
@@ -86,39 +84,26 @@ scrapers.set('ncode.syosetu.com', async (data, url) => {
     chapterData.characters = GetChapterCharacterCount(chapterData.chapter)
 
     fileLogic.DownloadChapter(chapterData, i + 1, novelMetadata)
-    chapterMetadata.push({ title: chapterData.title, chapter_number: i + 1, characters: chapterData.characters })
+    chapterMetadata.push({
+      title: chapterData.title,
+      chapter_number: i + 1,
+      characters: chapterData.characters,
+      cumulative_characters: chapterData.characters + ((i === 0) ? 0 : chapterMetadata[i - 1].cumulative_characters)
+    })
 
     await Sleep(2000) // so we don't get blocked from connecting too many times
   }
 
-  // add cumulative character count to metadata
-  for (let i = 0; i < chapterUrls.length; ++i) {
-    if (i === 0) { chapterMetadata[i].cumulative_characters = chapterMetadata[i].characters } else { chapterMetadata[i].cumulative_characters = chapterMetadata[i].characters + chapterMetadata[i - 1].cumulative_characters }
-  }
-
   novelMetadata.chapter_data = chapterMetadata
-  novelMetadata.characters = GetNovelCharacterCount(chapterMetadata)
+  novelMetadata.characters = chapterMetadata[chapterMetadata.length - 1].cumulative_characters
   fileLogic.UpdateMetadata(novelMetadata)
 })
 
-const punctuation = /[「」『』（）〔〕［］｛｝｟｠〈〉《》【】〖〗〘〙〚〛。、・…゠＝〜…‥•◦﹅﹆※＊〽〓♪♫♬♩]/g
-
-const GetChapterCharacterCount = (text) => {
-  return text.replace(punctuation, '').length
+const GetChapterCharacterCount = text => {
+  return text.replace(/[「」『』（）〔〕［］｛｝｟｠〈〉《》【】〖〗〘〙〚〛。、・…゠＝〜…‥•◦﹅﹆※＊〽〓♪♫♬♩]/g, '').length
 }
 
-const GetNovelCharacterCount = (chapterMetadata) => {
-  let characters = 0
-
-  for (const chapter of chapterMetadata) {
-    characters += chapter.characters
-  }
-
-  return characters
-}
-
-scrapers.set('kakuyomu.jp', async (data, url) => {
-  let $ = cheerio.load(data)
+scrapers.set('kakuyomu.jp', async ($, url) => {
   const baseUrl = 'https://' + GetHostname(url)
 
   const novelMetadata = {
@@ -135,18 +120,13 @@ scrapers.set('kakuyomu.jp', async (data, url) => {
   fileLogic.UpdateNovel(novelMetadata)
 
   // get a list of all the chapters we need to download
-  const chapterUrls = []
-  $('a.widget-toc-episode-episodeTitle').each((i, link) => {
-    const fullUrl = baseUrl + link.attribs.href
-    chapterUrls.push(fullUrl)
-  })
+  const chapterUrls = $('a.widget-toc-episode-episodeTitle').map((i, link) => baseUrl + link.attribs.href).toArray()
 
   // download the chapters and save partial metadata
   const chapterMetadata = []
   let chapterData
   for (let i = 0; i < chapterUrls.length; ++i) {
-    chapterData = await AxiosGetHtml(chapterUrls[i])
-    $ = cheerio.load(chapterData)
+    $ = cheerio.load(await AxiosGetHtml(chapterUrls[i]))
 
     chapterData = {
       title: $('.widget-episodeTitle').text(),
@@ -158,18 +138,16 @@ scrapers.set('kakuyomu.jp', async (data, url) => {
     chapterData.characters = GetChapterCharacterCount(chapterData.chapter)
 
     fileLogic.DownloadChapter(chapterData, i + 1, novelMetadata)
-
-    chapterMetadata.push({ title: chapterData.title, chapter_number: i + 1, characters: chapterData.characters })
+    chapterMetadata.push({
+      title: chapterData.title,
+      chapter_number: i + 1,
+      characters: chapterData.characters,
+      cumulative_characters: chapterData.characters + ((i === 0) ? 0 : chapterMetadata[i - 1].cumulative_characters)
+    })
     await Sleep(2000) // so we don't get blocked from connecting too many times
   }
 
-  // add cumulative character count to metadata
-  // TODO: just loop from the end and carry the incremental count
-  for (let i = 0; i < chapterUrls.length; ++i) {
-    chapterMetadata[i].cumulative_characters = chapterMetadata[i].characters + ((i === 0) ? 0 : chapterMetadata[i - 1].cumulative_characters)
-  }
-
   novelMetadata.chapter_data = chapterMetadata
-  novelMetadata.characters = GetNovelCharacterCount(chapterMetadata)
+  novelMetadata.characters = chapterMetadata[chapterMetadata.length - 1].cumulative_characters
   fileLogic.UpdateMetadata(novelMetadata)
 })

@@ -46,8 +46,7 @@ exports.GetAllNovels = () => {
       continue
     }
     try {
-      const metaData = fs.readFileSync(`${rootFolder}/${folder.name}/metadata.json`, 'utf8')
-      novels.push(JSON.parse(metaData))
+      novels.push(JSON.parse(fs.readFileSync(`${rootFolder}/${folder.name}/metadata.json`, 'utf8')))
     } catch (error) {
       console.log(error)
     }
