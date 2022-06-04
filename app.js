@@ -25,6 +25,7 @@ app.use('/webnovel', require('./api/webnovel'))
 
 app.use(express.static('css'))
 app.use(express.static('js'))
+app.use(express.static('images'))
 app.use('/fonts', express.static('./fonts'))
 
 app.listen(PORT, () => {

@@ -1,7 +1,7 @@
 const Router = require('express-promise-router')
 const webnovelLogic = require('../logic/webnovelLogic')
 
-const fs = require('fs')
+const fs = require('fs/Promises')
 
 const router = new Router()
 module.exports = router
@@ -12,32 +12,20 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/:novel', async (req, res) => {
-  fs.readFile(`./novels/${req.params.novel}/metadata.json`, (error, data) => {
-    if (error) {
-      res.status(500).send(error)
-    } else {
-      res.status(200).render('novel.html', JSON.parse(data))
-    }
-  })
+  try {
+    res.status(200).render('novel.html', JSON.parse(await fs.readFile(`./novels/${req.params.novel}/metadata.json`)))
+  } catch (error) {
+    res.status(500).send(error)
+  }
 })
 
 router.get('/:novel/:chapter', async (req, res) => {
-  const metadata = {}
-
-  fs.readFile(`./novels/${req.params.novel}/metadata.json`, (error, data) => {
-    if (error) {
-      res.status(500).send(error)
-    } else {
-      metadata.novel = JSON.parse(data)
-
-      fs.readFile(`./novels/${req.params.novel}/${req.params.chapter}.json`, (error, data) => {
-        if (error) {
-          res.status(500).send(error)
-        } else {
-          metadata.chapter = JSON.parse(data)
-          res.status(200).render('chapter.html', metadata)
-        }
-      })
-    }
-  })
+  try {
+    res.status(200).render('chapter.html', {
+      novel: JSON.parse(await fs.readFile(`./novels/${req.params.novel}/metadata.json`)),
+      chapter: JSON.parse(await fs.readFile(`./novels/${req.params.novel}/${req.params.chapter}.json`))
+    })
+  } catch (error) {
+    res.status(500).send(error)
+  }
 })
