@@ -1,16 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="apple-touch-icon" sizes="180x180"
-            href="/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32"
-            href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16"
-            href="/favicon-16x16.png">
-        <link rel="manifest" href="/site.webmanifest">
+        {% include "_head.html" %}
         <script src="webnovel.js" type="text/javascript" defer></script>
         <title>Eminent Reader</title>
     </head>
@@ -24,8 +15,8 @@
                     {% for novel in novels %}
                     <li>
                         <div><a href="/webnovel/{{novel.key}}">{{novel.title}}</a></div>
-                        <div>Chapters: {{novel.chapters}}</div>
-                        <div>Characters: {{novel.characters}}</div>
+                        <div>Chapters: {{novel.chapters | toLocaleString}}</div>
+                        <div>Characters: {{novel.characters | toLocaleString}}</div>
                     </li>
                     {% endfor %}
                 </ul>

@@ -1,26 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="theme-color" content="#ffffff">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="apple-touch-icon" sizes="180x180"
-            href="/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32"
-            href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16"
-            href="/favicon-16x16.png">
-        <link rel="manifest" href="/site.webmanifest">
-        <link rel="stylesheet" href="../../site.css">
+        {% include "_head.html" %}
         <title>{{title}}</title>
     </head>
     <body lang="ja">
         <main>
             <h1>{{title}}</h1>
             <div class="author">Author: {{author}}</div>
-            <div class="chapterCount">Chapters: {{chapters}}</div>
-            <div class="characterCount">Characters: {{characters}}</div>
+            <div class="chapterCount">Chapters: {{chapters | toLocaleString}}</div>
+            <div class="characterCount">Characters: {{characters |
+                toLocaleString}}</div>
             <a href="{{url}}" class="url">{{url}}</a>
 
             <p class="description">{{description}}</p>
