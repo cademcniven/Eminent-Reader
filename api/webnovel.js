@@ -1,7 +1,7 @@
 const Router = require('express-promise-router')
 const webnovelLogic = require('../logic/webnovelLogic')
 
-const fs = require('fs/Promises')
+const fs = require('fs').promises
 
 const router = new Router()
 module.exports = router

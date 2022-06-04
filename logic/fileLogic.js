@@ -1,4 +1,4 @@
-const fs = require('fs/promises')
+const fs = require('fs').promises
 
 const rootFolder = './novels'
 
@@ -9,26 +9,26 @@ exports.UpdateNovel = async metadata => {
 
   const metadataJson = `${folderName}/metadata.json`
 
-  if (await fs.exists(metadataJson)) {
+  try {
+    await fs.access(metadataJson)
     console.log('Metadata exists')
     return
+  } catch (err) {
+    console.log(`Downloading metadata for ${metadata.title}`)
+    return fs.writeFile(metadataJson, JSON.stringify(metadata))
   }
-
-  console.log(`Downloading metadata for ${metadata.title}`)
-
-  return fs.writeFile(metadataJson, JSON.stringify(metadata))
 }
 
 exports.DownloadChapter = async (chapterData, index, metaData) => {
   const path = `${rootFolder}/${metaData.key}`
   const indexJson = `${path}/${index}.json`
-  if (await fs.exists(indexJson)) {
+  try {
+    await fs.exists(indexJson)
     return
+  } catch (err) {
+    console.log(`Downloading chapter ${index}/${metaData.chapters} of ${metaData.title}`)
+    return fs.writeFile(indexJson, JSON.stringify(chapterData))
   }
-
-  console.log(`Downloading chapter ${index}/${metaData.chapters} of ${metaData.title}`)
-
-  return fs.writeFile(indexJson, JSON.stringify(chapterData))
 }
 
 exports.UpdateMetadata = metadata => {
