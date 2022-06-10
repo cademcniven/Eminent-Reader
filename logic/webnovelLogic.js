@@ -13,7 +13,7 @@ exports.DownloadNovel = async url => {
 
   const hostname = GetHostname(url)
   if (scrapers.has(hostname)) {
-    scrapers.get(hostname)(cheerio.load(await AxiosGetHtml(url)), url)
+    await scrapers.get(hostname)(cheerio.load(await AxiosGetHtml(url)), url)
   } else {
     console.log('Provided url is from an unsupported host')
   }
@@ -58,7 +58,7 @@ scrapers.set('ncode.syosetu.com', async ($, url) => {
     key: url.split('/')[3], // ncode
     last_updated: Date.now()
   }
-  fileLogic.UpdateNovel(novelMetadata)
+  await fileLogic.UpdateNovel(novelMetadata)
 
   // get a list of all the chapters we need to download
   const chapterUrls = []
@@ -83,7 +83,7 @@ scrapers.set('ncode.syosetu.com', async ($, url) => {
 
     chapterData.characters = GetChapterCharacterCount(chapterData.chapter)
 
-    fileLogic.DownloadChapter(chapterData, i + 1, novelMetadata)
+    await fileLogic.DownloadChapter(chapterData, i + 1, novelMetadata)
     chapterMetadata.push({
       title: chapterData.title,
       chapter_number: i + 1,
@@ -96,7 +96,7 @@ scrapers.set('ncode.syosetu.com', async ($, url) => {
 
   novelMetadata.chapter_data = chapterMetadata
   novelMetadata.characters = chapterMetadata[chapterMetadata.length - 1].cumulative_characters
-  fileLogic.UpdateMetadata(novelMetadata)
+  return fileLogic.UpdateMetadata(novelMetadata)
 })
 
 const GetChapterCharacterCount = text => {
@@ -117,7 +117,7 @@ scrapers.set('kakuyomu.jp', async ($, url) => {
     last_updated: Date.now()
   }
 
-  fileLogic.UpdateNovel(novelMetadata)
+  await fileLogic.UpdateNovel(novelMetadata)
 
   // get a list of all the chapters we need to download
   const chapterUrls = $('a.widget-toc-episode-episodeTitle').map((i, link) => baseUrl + link.attribs.href).toArray()
@@ -137,7 +137,7 @@ scrapers.set('kakuyomu.jp', async ($, url) => {
 
     chapterData.characters = GetChapterCharacterCount(chapterData.chapter)
 
-    fileLogic.DownloadChapter(chapterData, i + 1, novelMetadata)
+    await fileLogic.DownloadChapter(chapterData, i + 1, novelMetadata)
     chapterMetadata.push({
       title: chapterData.title,
       chapter_number: i + 1,
@@ -149,5 +149,5 @@ scrapers.set('kakuyomu.jp', async ($, url) => {
 
   novelMetadata.chapter_data = chapterMetadata
   novelMetadata.characters = chapterMetadata[chapterMetadata.length - 1].cumulative_characters
-  fileLogic.UpdateMetadata(novelMetadata)
+  return fileLogic.UpdateMetadata(novelMetadata)
 })

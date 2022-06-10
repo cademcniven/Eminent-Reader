@@ -1,44 +1,44 @@
-const fs = require('fs')
+const fs = require('fs').promises
 
 const rootFolder = './novels'
 
-exports.UpdateNovel = metadata => {
+exports.UpdateNovel = async metadata => {
   const folderName = `${rootFolder}/${metadata.key}`
 
-  fs.mkdirSync(folderName, { recursive: true })
+  await fs.mkdir(folderName, { recursive: true })
 
   const metadataJson = `${folderName}/metadata.json`
 
-  if (fs.existsSync(metadataJson)) {
+  try {
+    await fs.access(metadataJson)
     console.log('Metadata exists')
     return
+  } catch (err) {
+    console.log(`Downloading metadata for ${metadata.title}`)
+    return fs.writeFile(metadataJson, JSON.stringify(metadata))
   }
-
-  console.log(`Downloading metadata for ${metadata.title}`)
-
-  fs.writeFileSync(metadataJson, JSON.stringify(metadata))
 }
 
-exports.DownloadChapter = (chapterData, index, metaData) => {
+exports.DownloadChapter = async (chapterData, index, metaData) => {
   const path = `${rootFolder}/${metaData.key}`
   const indexJson = `${path}/${index}.json`
-  if (fs.existsSync(indexJson)) {
+  try {
+    await fs.exists(indexJson)
     return
+  } catch (err) {
+    console.log(`Downloading chapter ${index}/${metaData.chapters} of ${metaData.title}`)
+    return fs.writeFile(indexJson, JSON.stringify(chapterData))
   }
-
-  console.log(`Downloading chapter ${index}/${metaData.chapters} of ${metaData.title}`)
-
-  fs.writeFileSync(indexJson, JSON.stringify(chapterData))
 }
 
 exports.UpdateMetadata = metadata => {
   console.log(`Updating metadata for ${metadata.title}`)
 
-  fs.writeFileSync(`${rootFolder}/${metadata.key}/metadata.json`, JSON.stringify(metadata))
+  return fs.writeFile(`${rootFolder}/${metadata.key}/metadata.json`, JSON.stringify(metadata))
 }
 
-exports.GetAllNovels = () => {
-  const folders = fs.readdirSync(rootFolder, { withFileTypes: true })
+exports.GetAllNovels = async () => {
+  const folders = await fs.readdir(rootFolder, { withFileTypes: true })
   const novels = []
 
   for (const folder of folders) {
@@ -46,7 +46,7 @@ exports.GetAllNovels = () => {
       continue
     }
     try {
-      novels.push(JSON.parse(fs.readFileSync(`${rootFolder}/${folder.name}/metadata.json`, 'utf8')))
+      novels.push(JSON.parse(await fs.readFile(`${rootFolder}/${folder.name}/metadata.json`, 'utf8')))
     } catch (error) {
       console.log(error)
     }
