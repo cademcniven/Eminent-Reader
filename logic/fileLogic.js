@@ -38,8 +38,19 @@ exports.UpdateMetadata = metadata => {
 }
 
 exports.GetAllNovels = async () => {
-  const folders = await fs.readdir(rootFolder, { withFileTypes: true })
   const novels = []
+
+  let folders = []
+  try {
+    folders = await fs.readdir(rootFolder, { withFileTypes: true })
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      console.log(`Could not find ${rootFolder}, creating directory.`)
+      await fs.mkdir(rootFolder)
+    } else {
+      console.log(error)
+    }
+  }
 
   for (const folder of folders) {
     if (!folder.isDirectory()) {
