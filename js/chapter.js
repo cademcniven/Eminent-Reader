@@ -12,3 +12,12 @@ fetch(baseUrl + '/' + (currentChapter + 1)).then(response => {
     document.getElementsByClassName('chapterForward')[0].href = baseUrl + '/' + (currentChapter + 1)
   }
 })
+
+let chapterNumer = document.getElementsByClassName("chapterNumber")[0];
+chapterNumer.addEventListener("mouseover", () => {
+  document.getElementsByClassName("chapterTitle")[0].style.display = "block";
+})
+
+chapterNumer.addEventListener("mouseleave", () => {
+  document.getElementsByClassName("chapterTitle")[0].style.display = "none";
+})

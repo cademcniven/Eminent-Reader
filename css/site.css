@@ -1,9 +1,11 @@
 @font-face {
     font-family: "Noto Serif JP";
     src: url("/fonts/NotoSerifJP-Regular.otf") format("opentype");
-    unicode-range: U+3000-30FF,
-        U+FF00-FFEF,
-        U+4E00-9FAF;
+}
+
+@font-face {
+    font-family: "BIZ UDMincho";
+    src: url("/fonts/BIZUDMincho-Regular.ttf") format("truetype");
 }
 
 /*************************
@@ -12,6 +14,12 @@ Global Styling
 :root {
     font-family: "Noto Serif JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", "ヒラギノ角ゴ Pro W3", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック", "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, sans-serif;
     font-display: swap;
+
+    --foreground: #373D3F;
+    --background: #F2F3F4;
+
+    color: var(--foreground);
+    background-color: var(--background);
 }
 
 html {
@@ -81,47 +89,33 @@ Novel Info Styling
 /*************************
 Reader Styling
 **************************/
-:lang(ja) main,
-.chapterHeader {
+:lang(ja) main {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 0 3vw;
-}
-
-.chapterHeader a {
-    font-size: 1.2rem;
-    color: #5d5d5d;
-    text-decoration: none;
-}
-
-.chapterHeader a:hover {
-    color: black;
+    margin: auto;
 }
 
 .chapterNumber {
-    font-size: 3.5rem;
+    font-size: 6rem;
     margin: 0;
     -webkit-font-smoothing: antialiased;
 }
 
 .chapterTitle {
+    display: none;
     margin: 0;
     font-size: 2rem;
-    border-bottom: 2px solid black;
     -webkit-font-smoothing: antialiased;
-    width: 100%;
-    max-width: 45ch;
-    text-align: center;
 }
 
 .chapter {
     /* render newlines */
     white-space: pre-line;
     width: 100%;
-    font-size: 2rem;
     max-width: 45ch;
-    margin: auto;
+    font-size: 2rem;
     line-height: 150%;
     -webkit-font-smoothing: antialiased;
 }
@@ -141,7 +135,10 @@ footer {
     bottom: 0;
     display: grid;
     place-items: center;
-    background-color: white;
     width: 100vw;
     z-index: 1000;
+}
+
+footer span {
+    background-color: var(--background);
 }
