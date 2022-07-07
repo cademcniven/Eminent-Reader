@@ -100,7 +100,8 @@ scrapers.set('ncode.syosetu.com', async ($, url) => {
 })
 
 const GetChapterCharacterCount = text => {
-  return text.replace(/[「」『』（）〔〕［］｛｝｟｠〈〉《》【】〖〗〘〙〚〛。、・…゠＝〜…‥•◦﹅﹆※＊〽〓♪♫♬♩]/g, '').length
+  text = text.replace(/[「」『』（）〔〕［］｛｝｟｠〈〉《》【】〖〗〘〙〚〛。、・…゠＝〜…‥•◦﹅﹆※＊〽〓♪♫♬♩]/g, '')
+  return text.replace(/<[^>]+>/g, '').length
 }
 
 scrapers.set('kakuyomu.jp', async ($, url) => {
