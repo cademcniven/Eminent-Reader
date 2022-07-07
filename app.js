@@ -11,6 +11,7 @@ const nunjucksEnv = nunjucks.configure('html', {
 })
 
 nunjucksEnv.addFilter('toLocaleString', (num) => Number(num).toLocaleString('en'))
+nunjucksEnv.addFilter('trim', (str) => str.trim())
 
 app.use(cors())
 app.use(

@@ -6,20 +6,27 @@
         <title>Eminent Reader</title>
     </head>
     <body>
-        <label for="novelUrl">Enter a novel url to download</label>
-        <input type="text" id="novelUrl" />
-        <button onclick="DownloadWebnovel()">Click Me</button>
+        <!-- <label for="novelUrl">Enter a novel url to download</label> -->
+        <div class="downloadSearchBar">
+            <input type="search" id="novelUrl"
+                placeholder="https://ncode.syosetu.com/n2834dj/" autofocus />
+            <!-- <button class="downloadButton" onclick="DownloadWebnovel()">S</button> -->
+        </div>
+
         <main>
             <div id="library">
-                <ul>
-                    {% for novel in novels %}
-                    <li>
-                        <div><a href="/webnovel/{{novel.key}}">{{novel.title}}</a></div>
-                        <div>Chapters: {{novel.chapters | toLocaleString}}</div>
-                        <div>Characters: {{novel.characters | toLocaleString}}</div>
-                    </li>
-                    {% endfor %}
-                </ul>
+                {% for novel in novels %}
+                <div class="novelPanel">
+                    <div class="novelPanelTitle"><a
+                            href="/webnovel/{{novel.key}}">{{novel.title}}</a></div>
+                    <div>全{{novel.chapters | toLocaleString}}部分</div>
+                    <div>{{novel.characters | toLocaleString}}文字</div>
+                    <div id="description{{loop.index}}"
+                        class="novelPanelDescription truncateDescription">{{novel.description
+                        |
+                        trim}}</div>
+                </div>
+                {% endfor %}
             </div>
         </main>
     </body>
