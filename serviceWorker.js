@@ -7,10 +7,47 @@ const assets = [
     '/site.css'
 ]
 
+//average chapter size seems to be ~17kb so 250,000 is ~4.25gb
+const maxCacheSize = 250000
+
+//TODO: eventually make this check what kind of thing it's deleting,
+//and only delete novel chapters (so you don't delete like a font or something)
+const limitCacheSize = (name, size) => {
+    caches.open(name).then(cache => {
+        cache.keys().then(keys => {
+            if (keys.length > size) {
+                cache.delete(keys[0]).then(limitCacheSize(name, size))
+            }
+        })
+    })
+}
+
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(staticCache).then(cache => {
-            cache.addAll(assets)
+            let now = Date.now()
+
+            let cachePromises = assets.map(urlToPrefetch => {
+                let url = new URL(urlToPrefetch, location.href)
+                url.search += (url.search ? '&' : '?') + 'cache-bust=' + now
+
+                let request = new Request(url, { mode: 'no-cors' })
+                return fetch(request).then(response => {
+                    if (response.status >= 400) {
+                        throw new Error(`Request for ${urlToPrefetch} failed with status ${response.statusText}`)
+                    }
+
+                    return cache.put(urlToPrefetch, response)
+                }).catch(error => {
+                    console.error(`Not caching ${urlToPrefetch} due to ${error}`)
+                })
+            })
+
+            return Promise.all(cachePromises).then(() => {
+                console.log('Pre-fetching complete')
+            })
+        }).catch(error => {
+            console.error('Pre-fetching failed:', error)
         })
     )
 })
@@ -56,7 +93,7 @@ self.addEventListener('fetch', event => {
                                             .then(response => cache.put(url, response))
                                             .catch(error => console.error(error))
                                     })
-                                )
+                                ).then(limitCacheSize(dynamicCache, maxCacheSize))
                             }).catch(error => {
                                 console.error("error:", error)
                             })

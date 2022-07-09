@@ -3,11 +3,6 @@
     src: url("/fonts/NotoSerifJP-Regular.otf") format("opentype");
 }
 
-@font-face {
-    font-family: "BIZ UDMincho";
-    src: url("/fonts/BIZUDMincho-Regular.ttf") format("truetype");
-}
-
 /*************************
 Global Styling
 **************************/
@@ -16,7 +11,8 @@ Global Styling
     font-display: swap;
 
     --foreground: #373D3F;
-    --background: #F2F3F4;
+    /*--background: #F2F3F4;*/
+    --background: white;
 
     color: var(--foreground);
     background-color: var(--background);
@@ -122,6 +118,12 @@ Novel Library Styling
         13px 10.5px 90.1px rgba(0, 0, 0, 0.017),
         26px 21px 180px rgba(0, 0, 0, 0.012);
     cursor: pointer;
+}
+
+.novelPanel a {
+    text-decoration: none;
+    font-weight: bold;
+    color: inherit;
 }
 
 .novelPanel div {
