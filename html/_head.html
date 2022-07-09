@@ -1,6 +1,9 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F2F3F4" media="(prefers-color-scheme:
+    light)">
+<meta name="theme-color" content="#373D3F" media="(prefers-color-scheme: dark)">
 <link rel="apple-touch-icon" sizes="180x180"
     href="/img/apple-icon-180x180-seochecker-manifest-701.png">
 <link rel="icon" type="image/png" sizes="32x32"
@@ -10,26 +13,4 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="/site.css">
 
-<script>
-    const registerServiceWorker = async () => {
-        if ('serviceWorker' in navigator) {
-            try {
-                const registration = navigator.serviceWorker.register('serviceWorker.js')
-                if (registration.installing) {
-                    console.log('Service worker installing');
-                } else if (registration.waiting) {
-                    console.log('Service worker installed');
-                } else if (registration.active) {
-                    console.log('Service worker active');
-                }
-            } catch (error) {
-                console.log(`Service worker registration failed with error: ${error}`)
-            }
-        }
-        else {
-            console.log("This browser does not support service workers")
-        }
-    }
-    
-    registerServiceWorker()
-</script>
+<script src="/registerServiceWorker.js"></script>

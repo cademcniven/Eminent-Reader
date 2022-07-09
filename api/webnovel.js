@@ -11,6 +11,17 @@ router.post('/', async (req, res) => {
   res.status(200).send('test')
 })
 
+router.get('/chapterCount/:novel', async (req, res) => {
+  try {
+    let file = fs.readFile(`./novels/${req.params.novel}/metadata.json`).then(resp => {
+      res.status(200).send({ chapters: JSON.parse(resp)['chapters'] })
+    })
+
+  } catch (error) {
+    res.status(500).send(error)
+  }
+})
+
 router.get('/:novel', async (req, res) => {
   try {
     res.status(200).render('novel.html', JSON.parse(await fs.readFile(`./novels/${req.params.novel}/metadata.json`)))

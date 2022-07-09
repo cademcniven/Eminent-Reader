@@ -8,6 +8,8 @@
   "dir": "ltr",
   "display": "standalone",
   "orientation": "portrait",
+  "start_url": "/",
+  "scope": ".",
   "icons": [
     {
       "src": "/img/android-icon-192x192-seochecker-manifest-701.png",

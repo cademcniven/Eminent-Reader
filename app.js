@@ -24,10 +24,12 @@ app.engine('html', nunjucks.render)
 app.set('view_engine', 'html')
 
 app.use('/', require('./api/index'))
+app.use(express.static(__dirname + '/'))
 app.use('/webnovel', require('./api/webnovel'))
 
 app.use(express.static('./css'))
 app.use(express.static('./js'))
+
 app.use('/fonts', express.static('./fonts'))
 app.use('/img', express.static('./img'))
 
