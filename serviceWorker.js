@@ -4,7 +4,11 @@ const assets = [
     '/',
     '/webnovel.js',
     '/chapter.js',
-    '/site.css'
+    '/registerServiceWorker.js',
+    '/site.css',
+    '/img/favicon-16x16.png',
+    '/img/favicon-32x32.png',
+    '/img/ios/144.png'
 ]
 
 //average chapter size seems to be ~17kb so 250,000 is ~4.25gb
