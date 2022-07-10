@@ -48,3 +48,7 @@ const UpdateNovelReview = (review) => {
         body: JSON.stringify({ review: review })
     })
 }
+
+tippy('#novelReviewTooltip', {
+    content: 'No one can see your review except you. This is for reminding future-you if this novel is worth reading'
+})
