@@ -25,7 +25,7 @@ function DownloadWebnovel() {
 const novelPanels = document.querySelectorAll('.novelPanel')
 novelPanels.forEach(panel => {
   panel.addEventListener('click', (e) => {
-    e.currentTarget.querySelector('.novelPanelDescription').classList.toggle('truncateDescription')
+    e.currentTarget.querySelector('.novelPanelDescription').classList.toggle('hideDescription')
   })
 })
 

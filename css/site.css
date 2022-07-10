@@ -100,7 +100,7 @@ Novel Library Styling
 **************************/
 .downloadSearchBar {
     display: block;
-    width: 50%;
+    max-width: 95%;
     margin: auto;
     margin-top: 1rem;
     margin-bottom: 3rem;
@@ -131,7 +131,7 @@ Novel Library Styling
 
 #library {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(700px, 1fr));
     grid-gap: 1rem;
     margin: 1rem;
 }
@@ -167,7 +167,7 @@ Novel Library Styling
 }
 
 .novelPanelTitle {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     white-space: pre-line;
     -webkit-font-smoothing: antialiased;
 }
@@ -175,18 +175,15 @@ Novel Library Styling
 .novelPanelDescription {
     margin: 0;
     margin-top: 0.5rem;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     text-align: left !important;
     white-space: pre-line;
     -webkit-font-smoothing: antialiased;
-    line-height: 1.2rem;
+    line-height: 130%;
 }
 
-.truncateDescription {
-    --max-lines: 7;
-    max-height: calc(1.2rem * var(--max-lines));
-    text-overflow: ellipsis;
-    overflow: hidden;
+.hideDescription {
+    display: none;
 }
 
 .reading {
