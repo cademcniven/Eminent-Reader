@@ -1,6 +1,5 @@
 var novelCategory = document.getElementById("novelCategory")
 novelCategory.addEventListener("change", (event) => {
-    console.log(event.target.value)
     UpdateNovelCategory(event.target.value)
 })
 
@@ -30,5 +29,22 @@ const UpdateNovelRating = (rating) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ rating: rating })
+    })
+}
+
+var submitReviewButton = document.getElementById("submitNovelReviewButton")
+var novelReview = document.getElementById("novelReviewInput")
+submitReviewButton.addEventListener("click", (event) => {
+    UpdateNovelReview(novelReview.value)
+})
+
+const UpdateNovelReview = (review) => {
+    fetch(`${window.location.pathname}/review`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ review: review })
     })
 }

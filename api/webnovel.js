@@ -32,7 +32,7 @@ router.get('/:novel', async (req, res) => {
 
 router.post('/:novel/category', async (req, res) => {
   try {
-    let file = fs.readFile(`./novels/${req.params.novel}/metadata.json`).then(resp => {
+    fs.readFile(`./novels/${req.params.novel}/metadata.json`).then(resp => {
       return JSON.parse(resp)
     }).then(metaData => {
       metaData.category = req.body.category
@@ -44,21 +44,9 @@ router.post('/:novel/category', async (req, res) => {
   }
 })
 
-router.get('/:novel/category', async (req, res) => {
-  try {
-    let file = fs.readFile(`./novels/${req.params.novel}/metadata.json`).then(resp => {
-      JSON.parse(resp)
-    }).then(metaData => {
-      res.status(200).send({ category: metaData.category })
-    })
-  } catch (error) {
-    res.status(500).send(error)
-  }
-})
-
 router.post('/:novel/rating', async (req, res) => {
   try {
-    let file = fs.readFile(`./novels/${req.params.novel}/metadata.json`).then(resp => {
+    fs.readFile(`./novels/${req.params.novel}/metadata.json`).then(resp => {
       return JSON.parse(resp)
     }).then(metaData => {
       metaData.rating = req.body.rating
@@ -70,12 +58,14 @@ router.post('/:novel/rating', async (req, res) => {
   }
 })
 
-router.get('/:novel/rating', async (req, res) => {
+router.post('/:novel/review', async (req, res) => {
   try {
-    let file = fs.readFile(`./novels/${req.params.novel}/metadata.json`).then(resp => {
-      JSON.parse(resp)
+    fs.readFile(`./novels/${req.params.novel}/metadata.json`).then(resp => {
+      return JSON.parse(resp)
     }).then(metaData => {
-      res.status(200).send({ rating: metaData.rating })
+      metaData.review = req.body.review
+      fs.writeFile(`./novels/${req.params.novel}/metadata.json`, JSON.stringify(metaData))
+      res.status(200)
     })
   } catch (error) {
     res.status(500).send(error)
