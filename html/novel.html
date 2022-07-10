@@ -2,7 +2,9 @@
 <html lang="en" dir="ltr">
     <head>
         {% include "_head.html" %}
+        <script src="/novel.js" type="text/javascript" defer></script>
         <title>{{title}}</title>
+
     </head>
     <body lang="ja">
         <main>
@@ -12,6 +14,44 @@
             <div class="characterCount">Characters: {{characters |
                 toLocaleString}}</div>
             <a href="{{url}}" class="url">{{url}}</a>
+
+            <div class="userControls">
+                <div class="categories">
+                    <label for="novelCategory" class="sr-only">Category</label>
+                    <select name="novelCategory" id="novelCategory">
+                        <option value="unread">Unread</option>
+                        <option value="reading">Reading</option>
+                        <option value="want to read">Want to read</option>
+                        <option value="finished">Finished</option>
+                        <option value="dropped">Dropped</option>
+                        <option value="on hold">On hold</option>
+                    </select>
+                </div>
+                <div class="ratingWrapper">
+                    <div class="rating">
+                        <input type="radio" id="r5" name="rg1" value="5"
+                            {{ rating | getRatingIsChecked(5) }}>
+                        <label for="r5">★</label>
+                        <input type="radio" id="r4" name="rg1" value="4"
+                            {{ rating | getRatingIsChecked(4) }}>
+                        <label for="r4">★</label>
+                        <input type="radio" id="r3" name="rg1" value="3"
+                            {{ rating | getRatingIsChecked(3) }}>
+                        <label for="r3">★</label>
+                        <input type="radio" id="r2" name="rg1" value="2"
+                            {{ rating | getRatingIsChecked(2) }}>
+                        <label for="r2">★</label>
+                        <input type="radio" id="r1" name="rg1" value="1"
+                            {{ rating | getRatingIsChecked(1) }}>
+                        <label for="r1">★</label>
+                    </div>
+                </div>
+
+                <div class="novelReview">
+                    <label for="novelReviewInput">Brief Review</label>
+                    <textarea id="novelReviewInput" name="novelReviewInput"></textarea>
+                </div>
+            </div>
 
             <p class="description">{{description}}</p>
 

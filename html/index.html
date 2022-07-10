@@ -17,10 +17,42 @@
             <div id="library">
                 {% for novel in novels %}
                 <div class="novelPanel">
-                    <div class="novelPanelTitle"><a
+                    <div class="novelPanelTitle {{novel.category |
+                        stripWhitespace}}"><a
                             href="/webnovel/{{novel.key}}">{{novel.title}}</a></div>
                     <div>全{{novel.chapters | toLocaleString}}部分</div>
                     <div>{{novel.characters | toLocaleString}}文字</div>
+                    {% if novel.rating %}
+                    <div class="ratingWrapper">
+                        <div class="rating">
+                            <input type="radio" id="{{novel.key}}-r5"
+                                name="{{novel.key}}-rg1" value="5" {{
+                                novel.rating |
+                                getRatingIsChecked(5) }} disabled>
+                            <label for="{{novel.key}}-r5">★</label>
+                            <input type="radio" id="{{novel.key}}-r4"
+                                name="{{novel.key}}-rg1" value="4" {{
+                                novel.rating |
+                                getRatingIsChecked(4) }} disabled>
+                            <label for="{{novel.key}}-r4">★</label>
+                            <input type="radio" id="{{novel.key}}-r3"
+                                name="{{novel.key}}-rg1" value="3" {{
+                                novel.rating |
+                                getRatingIsChecked(3) }} disabled>
+                            <label for="{{novel.key}}-r3">★</label>
+                            <input type="radio" id="{{novel.key}}-r2"
+                                name="{{novel.key}}-rg1" value="2" {{
+                                novel.rating |
+                                getRatingIsChecked(2) }} disabled>
+                            <label for="{{novel.key}}-r2">★</label>
+                            <input type="radio" id="{{novel.key}}-r1"
+                                name="{{novel.key}}-rg1" value="1" {{
+                                novel.rating |
+                                getRatingIsChecked(1) }} disabled>
+                            <label for="{{novel.key}}-r1">★</label>
+                        </div>
+                    </div>
+                    {% endif %}
                     <div id="description{{loop.index}}"
                         class="novelPanelDescription truncateDescription">{{novel.description
                         |

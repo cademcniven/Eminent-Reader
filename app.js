@@ -12,6 +12,18 @@ const nunjucksEnv = nunjucks.configure('html', {
 
 nunjucksEnv.addFilter('toLocaleString', (num) => Number(num).toLocaleString('en'))
 nunjucksEnv.addFilter('trim', (str) => str.trim())
+nunjucksEnv.addFilter('stripWhitespace', (str) => {
+  if (str)
+    return str.split(' ').join('')
+
+  return null
+})
+nunjucksEnv.addFilter('getRatingIsChecked', (rating, starNumber) => {
+  if (rating == starNumber)
+    return "checked"
+
+  return null
+})
 
 app.use(cors())
 app.use(

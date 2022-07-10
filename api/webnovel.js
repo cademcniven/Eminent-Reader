@@ -30,6 +30,58 @@ router.get('/:novel', async (req, res) => {
   }
 })
 
+router.post('/:novel/category', async (req, res) => {
+  try {
+    let file = fs.readFile(`./novels/${req.params.novel}/metadata.json`).then(resp => {
+      return JSON.parse(resp)
+    }).then(metaData => {
+      metaData.category = req.body.category
+      fs.writeFile(`./novels/${req.params.novel}/metadata.json`, JSON.stringify(metaData))
+      res.status(200)
+    })
+  } catch (error) {
+    res.status(500).send(error)
+  }
+})
+
+router.get('/:novel/category', async (req, res) => {
+  try {
+    let file = fs.readFile(`./novels/${req.params.novel}/metadata.json`).then(resp => {
+      JSON.parse(resp)
+    }).then(metaData => {
+      res.status(200).send({ category: metaData.category })
+    })
+  } catch (error) {
+    res.status(500).send(error)
+  }
+})
+
+router.post('/:novel/rating', async (req, res) => {
+  try {
+    let file = fs.readFile(`./novels/${req.params.novel}/metadata.json`).then(resp => {
+      return JSON.parse(resp)
+    }).then(metaData => {
+      metaData.rating = req.body.rating
+      fs.writeFile(`./novels/${req.params.novel}/metadata.json`, JSON.stringify(metaData))
+      res.status(200)
+    })
+  } catch (error) {
+    res.status(500).send(error)
+  }
+})
+
+router.get('/:novel/rating', async (req, res) => {
+  try {
+    let file = fs.readFile(`./novels/${req.params.novel}/metadata.json`).then(resp => {
+      JSON.parse(resp)
+    }).then(metaData => {
+      res.status(200).send({ rating: metaData.rating })
+    })
+  } catch (error) {
+    res.status(500).send(error)
+  }
+})
+
 router.get('/:novel/:chapter', async (req, res) => {
   try {
     res.status(200).render('chapter.html', {

@@ -6,13 +6,31 @@
 /*************************
 Global Styling
 **************************/
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 :root {
     font-family: "Noto Serif JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", "ヒラギノ角ゴ Pro W3", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック", "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, sans-serif;
     font-display: swap;
+    font-size: 16px;
 
     --foreground: #373D3F;
     /*--background: #F2F3F4;*/
     --background: white;
+
+    /* 瑠璃色 */
+    --reading: #1F4788;
+    /* 藤紫 */
+    --wantToRead: #875F9A;
+    /* 青竹色 */
+    --finished: #006442;
+    /* 藤黄 */
+    --onHold: #FFB61E;
+    /* 赤紅 */
+    --dropped: #C3272B;
 
     color: var(--foreground);
     background-color: var(--background);
@@ -61,6 +79,20 @@ abbr[title] {
 */
 a:not([href]) {
     display: none;
+}
+
+textarea {
+    resize: none;
+}
+
+.sr-only:not(:focus):not(:active) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
 }
 
 /*************************
@@ -126,6 +158,10 @@ Novel Library Styling
     color: inherit;
 }
 
+.novelPanel a:hover {
+    text-decoration: underline;
+}
+
 .novelPanel div {
     text-align: center;
 }
@@ -153,6 +189,26 @@ Novel Library Styling
     overflow: hidden;
 }
 
+.reading {
+    color: var(--reading)
+}
+
+.wanttoread {
+    color: var(--wantToRead)
+}
+
+.finished {
+    color: var(--finished)
+}
+
+.onhold {
+    color: var(--onHold)
+}
+
+.dropped {
+    color: var(--dropped)
+}
+
 /*************************
 Novel Info Styling
 **************************/
@@ -170,6 +226,67 @@ Novel Info Styling
 .chapters {
     font-size: 1.5rem;
     width: max(45ch, 60%);
+}
+
+.userControls label {
+    display: block;
+    text-align: center;
+}
+
+.categories {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.categories label {
+    display: block;
+}
+
+#novelCategory {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.ratingWrapper {
+    text-align: center;
+}
+
+.rating {
+    display: inline-block;
+}
+
+.rating * {
+    float: right;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    font-size: 30px;
+}
+
+.rating input:checked~label {
+    color: var(--onHold);
+}
+
+.rating input:enabled+label:hover,
+.rating input:enabled+label:hover~label,
+.rating input:enabled+label:focus,
+.rating input:enabled+label:focus~label {
+    color: var(--onHold);
+    cursor: pointer;
+}
+
+.novelReview {
+    text-align: center;
+}
+
+#novelReviewInput {
+    width: 30rem;
+    max-width: 90%;
+    height: 8rem;
 }
 
 /*************************
