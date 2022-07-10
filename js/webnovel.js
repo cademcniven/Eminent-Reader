@@ -21,16 +21,21 @@ function DownloadWebnovel() {
   document.getElementById('novelUrl').value = ''
 }
 
-// add size toggle to descriptions
-const novelPanels = document.querySelectorAll('.novelPanel')
-novelPanels.forEach(panel => {
-  panel.addEventListener('click', (e) => {
-    e.currentTarget.querySelector('.novelPanelDescription').classList.toggle('hideDescription')
-  })
-})
-
 // submit search on enter press
 document.getElementById('novelUrl').onkeydown = function (e) {
   if (e.key === 'Enter')
     DownloadWebnovel()
 }
+
+//close all other open details when opening a detail
+const details = document.querySelectorAll('details')
+
+details.forEach((targetDetail) => {
+  targetDetail.addEventListener('click', () => {
+    details.forEach((detail) => {
+      if (detail !== targetDetail) {
+        detail.removeAttribute('open')
+      }
+    })
+  })
+})

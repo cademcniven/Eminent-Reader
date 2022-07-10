@@ -53,10 +53,10 @@
                         </div>
                     </div>
                     {% endif %}
-                    <div id="description{{loop.index}}"
-                        class="novelPanelDescription hideDescription">{{novel.description
-                        |
-                        trim}}</div>
+                    <details class="novelPanelDescription">
+                        <summary><i class="gg-select"></i></summary>
+                        {{novel.description | trim}}
+                    </details>
                 </div>
                 {% endfor %}
             </div>

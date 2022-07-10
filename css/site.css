@@ -103,6 +103,10 @@ input[type="search"]::-webkit-search-results-decoration {
     display: none;
 }
 
+details summary {
+    cursor: pointer;
+}
+
 /*************************
 Novel Library Styling
 **************************/
@@ -145,6 +149,8 @@ Novel Library Styling
 }
 
 .novelPanel {
+    display: flex;
+    flex-direction: column;
     padding: 0.5rem;
     border-radius: 20px;
     /* https://shadows.brumm.af/ */
@@ -157,7 +163,6 @@ Novel Library Styling
         7.8px 6.3px 54.3px rgba(0, 0, 0, 0.021),
         13px 10.5px 90.1px rgba(0, 0, 0, 0.017),
         26px 21px 180px rgba(0, 0, 0, 0.012);
-    cursor: pointer;
 }
 
 .novelPanel a {
@@ -182,7 +187,7 @@ Novel Library Styling
 
 .novelPanelDescription {
     margin: 0;
-    margin-top: 0.5rem;
+    margin-top: auto;
     padding: 1rem;
     font-size: 1.5rem;
     text-align: left !important;
@@ -191,8 +196,12 @@ Novel Library Styling
     line-height: 130%;
 }
 
-.hideDescription {
-    display: none;
+.novelPanelDescription summary::marker {
+    content: "";
+}
+
+.novelPanelDescription i {
+    margin: auto;
 }
 
 .reading {
