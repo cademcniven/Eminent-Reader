@@ -34,6 +34,7 @@ Global Styling
 
     color: var(--foreground);
     background-color: var(--background);
+    text-rendering: optimizeLegibility;
 }
 
 html {
@@ -141,28 +142,9 @@ Novel Library Styling
     color: #9e9d9d;
 }
 
-#library {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(700px, 1fr));
-    grid-gap: 1rem;
-    margin: 1rem;
-}
-
 .novelPanel {
-    display: flex;
-    flex-direction: column;
     padding: 0.5rem;
-    border-radius: 20px;
-    /* https://shadows.brumm.af/ */
-    box-shadow:
-        0.5px 0.4px 3.6px rgba(0, 0, 0, 0.05),
-        1.2px 1px 8.2px rgba(0, 0, 0, 0.038),
-        2px 1.7px 14.2px rgba(0, 0, 0, 0.033),
-        3.3px 2.6px 22.5px rgba(0, 0, 0, 0.029),
-        5px 4.1px 34.8px rgba(0, 0, 0, 0.025),
-        7.8px 6.3px 54.3px rgba(0, 0, 0, 0.021),
-        13px 10.5px 90.1px rgba(0, 0, 0, 0.017),
-        26px 21px 180px rgba(0, 0, 0, 0.012);
+    border-bottom: 1px solid var(--foreground)
 }
 
 .novelPanel a {
@@ -193,7 +175,7 @@ Novel Library Styling
     text-align: left !important;
     white-space: pre-line;
     -webkit-font-smoothing: antialiased;
-    line-height: 130%;
+    line-height: 180%;
 }
 
 .novelPanelDescription summary::marker {
@@ -234,7 +216,7 @@ Novel Info Styling
     font-size: 1.5rem;
     max-width: max(45ch, 60%);
     margin: 4rem auto;
-    line-height: 150%;
+    line-height: 180%;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -337,7 +319,7 @@ Reader Styling
     width: 100%;
     max-width: 45ch;
     font-size: 2rem;
-    line-height: 150%;
+    line-height: 180%;
     -webkit-font-smoothing: antialiased;
 }
 
