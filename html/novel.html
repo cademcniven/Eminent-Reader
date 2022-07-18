@@ -3,10 +3,13 @@
     <head>
         {% include "_head.html" %}
         <script src="/novel.js" type="text/javascript" defer></script>
+        <script src="/navbar.js" defer></script>
         <title>{{title}}</title>
-
     </head>
     <body lang="ja">
+        <header>
+            {% include "_navbar.html" %}
+        </header>
         <main>
             <h1>{{title}}</h1>
             <div class="author">Author: {{author}}</div>

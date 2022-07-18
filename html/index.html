@@ -2,18 +2,21 @@
 <html lang="en" dir="ltr">
     <head>
         {% include "_head.html" %}
+
         <script src="webnovel.js" type="text/javascript" defer></script>
+        <script src="/navbar.js" defer></script>
         <title>Eminent Reader</title>
     </head>
     <body>
-        <!-- <label for="novelUrl">Enter a novel url to download</label> -->
-        <div class="downloadSearchBar">
-            <input type="search" id="novelUrl"
-                placeholder="https://ncode.syosetu.com/n2834dj/" autofocus />
-            <!-- <button class="downloadButton" onclick="DownloadWebnovel()">S</button> -->
-        </div>
-
+        <header>
+            {% include "_navbar.html" %}
+        </header>
         <main>
+            <div class="downloadSearchBar">
+                <input type="search" id="novelUrl"
+                    placeholder="https://ncode.syosetu.com/n2834dj/" autofocus
+                    />
+            </div>
             <div id="library">
                 {% for novel in novels %}
                 <div class="novelPanel">

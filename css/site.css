@@ -16,10 +16,14 @@ Global Styling
     font-family: "Noto Serif JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", "ヒラギノ角ゴ Pro W3", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック", "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, sans-serif;
     font-display: swap;
     font-size: 16px;
+    text-rendering: optimizeLegibility;
+    quotes: "\201c""\201d""\2018""\2019";
 
     --foreground: #373D3F;
-    /*--background: #F2F3F4;*/
     --background: white;
+
+    --reader-foreground: #373D3F;
+    --reader-background: white;
 
     /* 瑠璃色 */
     --reading: #1F4788;
@@ -34,7 +38,6 @@ Global Styling
 
     color: var(--foreground);
     background-color: var(--background);
-    text-rendering: optimizeLegibility;
 }
 
 html {
@@ -96,6 +99,10 @@ textarea {
     width: 1px;
 }
 
+.hidden {
+    display: none;
+}
+
 /* clears the 'X' from Chrome */
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
@@ -108,21 +115,199 @@ details summary {
     cursor: pointer;
 }
 
+ruby>rt {
+    font-size: 50%;
+}
+
+/*************************
+Navbar Styling
+**************************/
+nav {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: var(--foreground);
+    margin-bottom: 3rem;
+    box-shadow:
+        0px 0.4px 1.2px rgba(0, 0, 0, 0.07),
+        0px 0.9px 2.7px rgba(0, 0, 0, 0.053),
+        0px 1.6px 4.7px rgba(0, 0, 0, 0.046),
+        0px 2.5px 7.5px rgba(0, 0, 0, 0.04),
+        0px 3.9px 11.6px rgba(0, 0, 0, 0.035),
+        0px 6px 18.1px rgba(0, 0, 0, 0.03),
+        0px 10px 30px rgba(0, 0, 0, 0.024),
+        0px 20px 60px rgba(0, 0, 0, 0.017);
+}
+
+nav .logo img {
+    margin: auto;
+    display: block;
+}
+
+nav .logo {
+    margin: auto;
+    width: fit-content;
+    text-align: center;
+    cursor: pointer;
+    color: var(--background);
+}
+
+.logoText {
+    line-height: 1em;
+}
+
+.fixedLogo {
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    right: 0;
+}
+
+.navMenu {
+    width: 100%;
+    position: fixed;
+    background-color: var(--foreground);
+    color: var(--background);
+    z-index: 999;
+    top: 0px;
+    bottom: 0px;
+    overflow-y: scroll;
+}
+
+.slide-in {
+    animation: slide-in-animation 1.2s both;
+}
+
+@keyframes slide-in-animation {
+    0% {
+        transform: translateY(-5000px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* 
+    when logo gets set to position: fixed, add
+    this class to the element below it so things don't get shifted
+*/
+.logoPadding {
+    padding-top: calc(32px + 1em);
+}
+
+.navMenu h2,
+.navMenu h3 {
+    text-align: center;
+}
+
+.navMenu h2 {
+    font-size: 4rem;
+}
+
+.settingsItem {
+    width: 600px;
+    max-width: 90%;
+    margin: auto;
+}
+
+.homeLink a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.homeLink a:hover {
+    text-decoration: underline;
+}
+
+.color {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+#colorModal {
+    background-color: var(--foreground);
+    color: var(--background);
+}
+
+#colorModal::backdrop {
+    backdrop-filter: blur(5px);
+}
+
+#modalColorSquare {
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    border: 2px solid white;
+}
+
+#modalColorInfo p {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.modalControls {
+    float: right;
+}
+
+#colorPreview {
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    background-color: blue;
+}
+
+.snow {
+    height: 100%;
+    width: 100%;
+}
+
+.snow svg {
+    float: left;
+    width: 100%;
+    height: 100%;
+}
+
+#snow-top-layer {
+    will-change: transform;
+    transform: translateY(0);
+    animation: fall 15s infinite linear;
+}
+
+#snow-bottom-layer {
+    will-change: transform;
+    transform: translateY(0);
+    animation: fall 22s infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(300px);
+    }
+}
+
 /*************************
 Novel Library Styling
 **************************/
 .downloadSearchBar {
     display: block;
     max-width: 95%;
+    height: 4rem;
     margin: auto;
     margin-top: 1rem;
     margin-bottom: 3rem;
-    height: 4rem;
 }
 
 #novelUrl {
     height: 100%;
     width: 100%;
+    padding: 5px;
     font-size: 3rem;
     float: left;
     border: none;
@@ -300,6 +485,11 @@ Reader Styling
     margin: auto;
 }
 
+.chapterMain {
+    background-color: var(--reader-background);
+    color: var(--reader-foreground);
+}
+
 .chapterNumber {
     font-size: 6rem;
     margin: 0;
@@ -321,10 +511,23 @@ Reader Styling
     font-size: 2rem;
     line-height: 180%;
     -webkit-font-smoothing: antialiased;
+
+    /* align first quote to the left of text block */
+    text-indent: -1em;
+    padding-left: 1em;
 }
 
 .chapter p {
     margin: 0;
+    hanging-punctuation: first allow-end;
+}
+
+.chapter em,
+.chapter i {
+    font-style: normal;
+    -webkit-text-emphasis: dot;
+    -epub-text-emphasis: dot;
+    text-emphasis: dot;
 }
 
 .chapterControls {
@@ -343,5 +546,5 @@ footer {
 }
 
 footer span {
-    background-color: var(--background);
+    background-color: var(--reader-background);
 }

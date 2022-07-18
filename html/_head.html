@@ -13,7 +13,28 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="/site.css">
 <link rel="stylesheet" href="/glyphs.css">
+<link rel="stylesheet" href="/userStyles.css">
 
 <script src="/registerServiceWorker.js"></script>
 <script src="/popper.min.js" defer></script>
 <script src="/tippy-bundle.umd.min.js" defer></script>
+
+<style id="userStyles">
+    :root {
+        {% for key, val in userSettings %}
+        {{key | convertCssProperty}}: {{val | convertCssProperty}};
+        {% endfor %}
+    }
+</style>
+<script>
+if( "caches" in window ){
+  var css = document.getElementById("userStyles").innerHTML;
+  if( caches ){
+    caches.open('site-static').then(function(cache) {
+      cache.put("./userStyles.css", new Response( css,
+        {headers: {'Content-Type': 'text/css'}}
+      ));
+    });
+  }
+}
+</script>

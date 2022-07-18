@@ -48,7 +48,7 @@ exports.GetAllNovels = async () => {
       console.log(`Could not find ${rootFolder}, creating directory.`)
       await fs.mkdir(rootFolder)
     } else {
-      console.log(error)
+      console.error(error)
     }
   }
 
@@ -59,9 +59,26 @@ exports.GetAllNovels = async () => {
     try {
       novels.push(JSON.parse(await fs.readFile(`${rootFolder}/${folder.name}/metadata.json`, 'utf8')))
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
   return novels
+}
+
+exports.GetUserSettings = async () => {
+  let filename = './settings/userSettings.json'
+  try {
+    return JSON.parse(await fs.readFile(filename))
+  } catch (err) {
+    return fs.writeFile(filename, JSON.stringify(new Object()))
+  }
+}
+
+exports.SetUserSettings = async (settings) => {
+  return fs.writeFile('./settings/userSettings.json', JSON.stringify(settings))
+}
+
+exports.GetSettings = async () => {
+  return JSON.parse(await fs.readFile('./settings/settings.json'))
 }

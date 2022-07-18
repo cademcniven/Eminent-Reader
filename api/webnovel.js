@@ -76,7 +76,8 @@ router.get('/:novel/:chapter', async (req, res) => {
   try {
     res.status(200).render('chapter.html', {
       novel: JSON.parse(await fs.readFile(`./novels/${req.params.novel}/metadata.json`)),
-      chapter: JSON.parse(await fs.readFile(`./novels/${req.params.novel}/${req.params.chapter}.json`))
+      chapter: JSON.parse(await fs.readFile(`./novels/${req.params.novel}/${req.params.chapter}.json`)),
+      userSettings: JSON.parse(await fs.readFile(`./settings/userSettings.json`))
     })
   } catch (error) {
     res.status(500).send(error)

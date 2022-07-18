@@ -1,0 +1,83 @@
+<nav>
+    <div class="logo">
+        <img src="/img/favicon-32x32.png" alt="logo" />
+        <div class="logoText">Eminent Reader</div>
+    </div>
+    <div id="logoSpacer"></div>
+</nav>
+
+<div class="navMenu slide-in hidden">
+    <h2 class="homeLink logoPadding"><a href="/">Home</a></h2>
+    <div class="settings">
+        <h2>Settings</h2>
+        <h3>Theme</h3>
+        <div class="settingsItem">
+            <h4>Site Theme</h4>
+            <input type="radio" id="siteThemeLight"
+                name="siteTheme" value="light">
+            <label for="siteThemeLight">Light</label>
+
+            <input type="radio" id="siteThemeDark"
+                name="siteTheme" value="dark">
+            <label for="siteThemeDark">Dark</label>
+
+            <input type="radio" id="siteThemeUltraLight"
+                name="siteTheme" value="ultraLight">
+            <label for="siteThemeUltraLight">Ultra Light</label>
+
+            <input type="radio" id="siteThemeUltraDark"
+                name="siteTheme" value="ultraDark">
+            <label for="siteThemeUltraDark">Ultra Dark</label>
+        </div>
+        <div class="settingsItem">
+            <h4>Reader Theme</h4>
+            <dialog id="colorModal">
+                <form name="colorForm" method="dialog">
+                    <div id="colorPreview">
+                        {% include "_snow.html" %}
+                    </div>
+                    <div id="modalColorInfo">
+                        <p>
+                            <ruby>
+                                <span id="modalColorName"></span>
+                                <rt id="modalColorReading"></rt>
+                            </ruby>
+                        </p>
+                        <div id="modalColorSquare"></div>
+                    </div>
+                    <p>
+                        <label>Apply Color:
+                            <input type="radio" id="readerThemeForeground"
+                                name="readerColors" value="--reader-foreground">
+                            <label for="readerThemeForeground">Foreground</label>
+                            <input type="radio" id="readerThemeBackground"
+                                name="readerColors" value="--reader-background">
+                            <label for="readerThemeBackground">Background</label>
+                        </label>
+                    </p>
+                    <div class="modalControls">
+                        <button value="cancel">Cancel</button>
+                        <button id="colorModalConfirm" value="default">Confirm</button>
+                    </div>
+                </form>
+            </dialog>
+            {% for category, colors in settings.readerColors %}
+            <h3>{{category}}</h3>
+            <div class="colors">
+                {% for name, color in colors %}
+                {% if color | is_string %}
+                <div class="color" style="background-color: {{color}};"
+                    data-color="{{color}}" data-name="{{name}}">
+                </div>
+                {% else %}
+                <div class="color" style="background-color: {{color.Value}};"
+                    data-color="{{color.Value}}" data-name="{{name}}"
+                    data-reading="{{color.Reading}}">
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

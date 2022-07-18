@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const nunjucks = require('nunjucks')
+const open = require('open')
 
 const app = express()
 const PORT = process.env.PORT || 3069
@@ -20,9 +21,15 @@ nunjucksEnv.addFilter('stripWhitespace', (str) => {
 })
 nunjucksEnv.addFilter('getRatingIsChecked', (rating, starNumber) => {
   if (rating == starNumber)
-    return "checked"
+    return 'checked'
 
   return null
+})
+nunjucksEnv.addFilter('is_string', obj => {
+  return typeof obj == 'string';
+})
+nunjucksEnv.addFilter('convertCssProperty', str => {
+  return str.replaceAll('_', '-')
 })
 
 app.use(cors())
@@ -41,6 +48,7 @@ app.use('/webnovel', require('./api/webnovel'))
 
 app.use(express.static('./css'))
 app.use(express.static('./js'))
+app.use(express.static('./settings'))
 
 app.use('/fonts', express.static('./fonts'))
 app.use('/img', express.static('./img'))
@@ -48,3 +56,5 @@ app.use('/img', express.static('./img'))
 app.listen(PORT, () => {
   console.log(`The Server is running at: http://localhost:${PORT}/`)
 })
+
+open(`http://localhost:${PORT}`)
