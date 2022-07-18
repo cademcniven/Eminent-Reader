@@ -9,6 +9,68 @@ logo.addEventListener('click', event => {
 })
 
 /**************************************************** 
+ * site theme options
+ ****************************************************/
+const siteThemeRadios = document.siteThemeForm.siteTheme
+siteThemeRadios.forEach(radio => {
+    radio.addEventListener('change', event => {
+        if (event.currentTarget.checked) {
+            UpdateSiteTheme(event.currentTarget.value)
+        }
+    })
+})
+
+function UpdateSiteTheme(theme) {
+    const themeColors = GetSiteThemeColors(theme)
+
+    fetch('/getUserSettings').then(res => {
+        return res.json()
+    })
+        .then(settings => {
+            settings = { ...settings, ...themeColors }
+
+            console.log(settings)
+            PostUserSettings(settings)
+        })
+}
+
+function GetSiteThemeColors(theme) {
+    switch (theme) {
+        case 'light':
+            return {
+                '__foreground': '#373D3F',
+                '__background': '#FEFEFA',
+                '__header-foreground': 'var(--background)',
+                '__header-background': 'var(--foreground)'
+            }
+        case 'dark':
+            return {
+                '__foreground': '#FEFEFA',
+                '__background': '#373D3F',
+                '__header-foreground': 'var(--foreground)',
+                '__header-background': 'var(--background)'
+            }
+        case 'ultraLight':
+            return {
+                '__foreground': 'black',
+                '__background': 'white',
+                '__header-foreground': 'var(--background)',
+                '__header-background': 'var(--foreground)'
+            }
+        case 'ultraDark':
+            return {
+                '__foreground': 'white',
+                '__background': 'black',
+                '__header-foreground': 'var(--foreground)',
+                '__header-background': 'var(--background)'
+            }
+        default:
+            console.error('stop fucking around in devtools')
+            return {}
+    }
+}
+
+/**************************************************** 
  * modal stuff
  ****************************************************/
 const colors = document.querySelectorAll('.color')
@@ -123,14 +185,12 @@ function UpdateUserSettings() {
         .getPropertyValue('--reader-background')
 
     fetch('/getUserSettings').then(res => {
-        console.log(res)
         return res.json()
     })
         .then(settings => {
             settings['__reader_foreground'] = readerForeground
             settings['__reader_background'] = readerBackground
 
-            console.log(settings)
             PostUserSettings(settings)
         })
 }

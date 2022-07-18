@@ -22,6 +22,9 @@ Global Styling
     --foreground: #373D3F;
     --background: white;
 
+    --header-foreground: var(--background);
+    --header-background: var(--foreground);
+
     --reader-foreground: #373D3F;
     --reader-background: white;
 
@@ -125,7 +128,7 @@ Navbar Styling
 nav {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    background-color: var(--foreground);
+    background-color: var(--header-background);
     margin-bottom: 3rem;
     box-shadow:
         0px 0.4px 1.2px rgba(0, 0, 0, 0.07),
@@ -148,7 +151,7 @@ nav .logo {
     width: fit-content;
     text-align: center;
     cursor: pointer;
-    color: var(--background);
+    color: var(--header-foreground);
 }
 
 .logoText {
@@ -165,8 +168,8 @@ nav .logo {
 .navMenu {
     width: 100%;
     position: fixed;
-    background-color: var(--foreground);
-    color: var(--background);
+    background-color: var(--header-background);
+    color: var(--header-foreground);
     z-index: 999;
     top: 0px;
     bottom: 0px;
@@ -221,7 +224,7 @@ nav .logo {
 .navMenuHeaderSpacer {
     height: 80px;
     width: 100%;
-    background-color: var(--foreground);
+    background-color: var(--header-background);
     position: sticky;
     top: 0;
 }
