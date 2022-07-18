@@ -196,7 +196,9 @@ nav .logo {
 }
 
 .navMenu h2,
-.navMenu h3 {
+.navMenu h3,
+.navMenu h4,
+.navMenu h5 {
     text-align: center;
 }
 
@@ -204,10 +206,34 @@ nav .logo {
     font-size: 4rem;
 }
 
+.navMenu h3 {
+    font-size: 2.5rem;
+}
+
+.navMenu h4 {
+    font-size: 1.5rem;
+}
+
+.navMenu h5 {
+    font-size: 1.2rem;
+}
+
+.navMenuHeaderSpacer {
+    height: 80px;
+    width: 100%;
+    background-color: var(--foreground);
+    position: sticky;
+    top: 0;
+}
+
 .settingsItem {
     width: 600px;
     max-width: 90%;
     margin: auto;
+}
+
+.settingsItem.siteTheme {
+    text-align: center;
 }
 
 .homeLink a {
