@@ -4,19 +4,20 @@
         {% include "_head.html" %}
         <script src="/novel.js" type="text/javascript" defer></script>
         <script src="/navbar.js" defer></script>
-        <title>{{title}}</title>
+        <title>{{metaData.title}}</title>
     </head>
     <body lang="ja">
         <header>
             {% include "_navbar.html" %}
         </header>
         <main>
-            <h1>{{title}}</h1>
-            <div class="author">Author: {{author}}</div>
-            <div class="chapterCount">Chapters: {{chapters | toLocaleString}}</div>
-            <div class="characterCount">Characters: {{characters |
+            <h1>{{metaData.title}}</h1>
+            <div class="author">Author: {{metaData.author}}</div>
+            <div class="chapterCount">Chapters: {{metaData.chapters |
                 toLocaleString}}</div>
-            <a href="{{url}}" class="url">{{url}}</a>
+            <div class="characterCount">Characters: {{metaData.characters |
+                toLocaleString}}</div>
+            <a href="{{metaData.url}}" class="url">{{metaData.url}}</a>
 
             <div class="userControls">
                 <div class="categories">
@@ -33,19 +34,19 @@
                 <div class="ratingWrapper">
                     <div class="rating">
                         <input type="radio" id="r5" name="rg1" value="5"
-                            {{ rating | getRatingIsChecked(5) }}>
+                            {{ metaData.rating | getRatingIsChecked(5) }}>
                         <label for="r5">★</label>
                         <input type="radio" id="r4" name="rg1" value="4"
-                            {{ rating | getRatingIsChecked(4) }}>
+                            {{ metaData.rating | getRatingIsChecked(4) }}>
                         <label for="r4">★</label>
                         <input type="radio" id="r3" name="rg1" value="3"
-                            {{ rating | getRatingIsChecked(3) }}>
+                            {{ metaData.rating | getRatingIsChecked(3) }}>
                         <label for="r3">★</label>
                         <input type="radio" id="r2" name="rg1" value="2"
-                            {{ rating | getRatingIsChecked(2) }}>
+                            {{ metaData.rating | getRatingIsChecked(2) }}>
                         <label for="r2">★</label>
                         <input type="radio" id="r1" name="rg1" value="1"
-                            {{ rating | getRatingIsChecked(1) }}>
+                            {{ metaData.rating | getRatingIsChecked(1) }}>
                         <label for="r1">★</label>
                     </div>
                 </div>
@@ -53,20 +54,20 @@
                 <div class="novelReview">
                     <label for="novelReviewInput">Brief Review <i
                             id="novelReviewTooltip" class="gg-info"></i></label>
-                    <textarea id="novelReviewInput" name="novelReviewInput">{{review}}</textarea>
+                    <textarea id="novelReviewInput" name="novelReviewInput">{{metaData.review}}</textarea>
                     <button type="button" id="submitNovelReviewButton">Update
                         Review</button>
                 </div>
             </div>
 
-            <p class="description">{{description}}</p>
+            <p class="description">{{metaData.description}}</p>
 
             <p class="chapters">
-                {% for chapter in chapter_data -%}
-                <a href="/webnovel/{{key}}/{{chapter.chapter_number}}">第{{chapter.chapter_number}}話
+                {% for chapter in metaData.chapter_data %}
+                <a href="/webnovel/{{metaData.key}}/{{chapter.chapter_number}}">第{{chapter.chapter_number}}話
                     - {{chapter.title}}</a>
                 <br>
-                {%- endfor %}
+                {% endfor %}
             </p>
         </main>
     </body>

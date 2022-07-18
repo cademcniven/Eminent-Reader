@@ -1,5 +1,6 @@
 const Router = require('express-promise-router')
 const webnovelLogic = require('../logic/webnovelLogic')
+const fileLogic = require('../logic/fileLogic')
 
 const fs = require('fs').promises
 
@@ -9,6 +10,18 @@ module.exports = router
 router.post('/', async (req, res) => {
   await webnovelLogic.DownloadNovel(req.body.url)
   res.status(200).send('test')
+})
+
+router.get('/getUserSettings', async (req, res) => {
+  res.status(200).json(await fileLogic.GetUserSettings())
+})
+
+router.post('/setUserSettings', async (req, res) => {
+  try {
+    fileLogic.SetUserSettings(req.body)
+  } catch (error) {
+    res.status(500).send(error)
+  }
 })
 
 router.get('/chapterCount/:novel', async (req, res) => {
@@ -24,8 +37,12 @@ router.get('/chapterCount/:novel', async (req, res) => {
 
 router.get('/:novel', async (req, res) => {
   try {
-    res.status(200).render('novel.html', JSON.parse(await fs.readFile(`./novels/${req.params.novel}/metadata.json`)))
+    res.status(200).render('novel.html', {
+      metaData: JSON.parse(await fs.readFile(`./novels/${req.params.novel}/metadata.json`)),
+      settings: await fileLogic.GetSettings()
+    })
   } catch (error) {
+    console.log(error)
     res.status(500).send(error)
   }
 })
