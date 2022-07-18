@@ -543,8 +543,5 @@ footer {
     place-items: center;
     width: 100vw;
     z-index: 1000;
-}
-
-footer span {
     background-color: var(--reader-background);
 }
