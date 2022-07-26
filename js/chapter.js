@@ -2,7 +2,6 @@ const urlSegments = window.location.pathname.split('/')
 const currentChapter = parseInt(urlSegments.pop() || urlSegments.pop()) // handle potential trailing slash
 const baseUrl = urlSegments.join('/')
 
-// TODO: side effects while loading are a bad practice
 if (currentChapter > 1) {
   document.getElementsByClassName('chapterBack')[0].href = baseUrl + '/' + (currentChapter - 1)
 }
@@ -13,11 +12,11 @@ fetch(baseUrl + '/' + (currentChapter + 1)).then(response => {
   }
 })
 
-let chapterNumer = document.getElementsByClassName("chapterNumber")[0];
-chapterNumer.addEventListener("mouseover", () => {
+let chapterHeader = document.getElementsByClassName("chapterHeader")[0];
+chapterHeader.addEventListener("mouseover", () => {
   document.getElementsByClassName("chapterTitle")[0].style.display = "block";
 })
 
-chapterNumer.addEventListener("mouseleave", () => {
+chapterHeader.addEventListener("mouseleave", () => {
   document.getElementsByClassName("chapterTitle")[0].style.display = "none";
 })

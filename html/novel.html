@@ -12,13 +12,13 @@
         </header>
         <main>
             <h1>{{metaData.title}}</h1>
-            <div class="author">Author: {{metaData.author}}</div>
-            <div class="chapterCount">Chapters: {{metaData.chapters |
-                toLocaleString}}</div>
-            <div class="characterCount">Characters: {{metaData.characters |
-                toLocaleString}}</div>
-            <a href="{{metaData.url}}" class="url">{{metaData.url}}</a>
-
+            <div class="author" data-text="Author: {{metaData.author}}"></div>
+            <div class="chapterCount" data-text="Chapters: {{metaData.chapters |
+                toLocaleString}}"></div>
+            <div class="characterCount" data-text="Characters:
+                {{metaData.characters |
+                toLocaleString}}"></div>
+            <a href="{{metaData.url}}" class="url" data-text="{{metaData.url}}"></a>
             <div class="userControls">
                 <div class="categories">
                     <label for="novelCategory" class="sr-only">Category</label>
@@ -64,8 +64,9 @@
 
             <p class="chapters">
                 {% for chapter in metaData.chapter_data %}
-                <a href="/webnovel/{{metaData.key}}/{{chapter.chapter_number}}">第{{chapter.chapter_number}}話
-                    - {{chapter.title}}</a>
+                <a href="/webnovel/{{metaData.key}}/{{chapter.chapter_number}}"
+                    data-text="第{{chapter.chapter_number}}話 -
+                    {{chapter.title}}"></a>
                 <br>
                 {% endfor %}
             </p>

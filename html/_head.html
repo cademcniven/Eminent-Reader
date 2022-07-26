@@ -15,9 +15,10 @@
 <link rel="stylesheet" href="/glyphs.css">
 <link rel="stylesheet" href="/userStyles.css">
 
-<!-- <script src="/registerServiceWorker.js"></script> -->
+<script src="/registerServiceWorker.js"></script>
 <script src="/popper.min.js" defer></script>
 <script src="/tippy-bundle.umd.min.js" defer></script>
+
 
 <style id="userStyles">
     :root {
@@ -28,11 +29,11 @@
 </style>
 <script>
 if( "caches" in window ){
-  var css = document.getElementById("userStyles").innerHTML;
+  var css = document.getElementById("userStyles").innerHTML
   if( caches ){
     caches.open('site-static').then(function(cache) {
-        cache.delete("./userStyles.css").then(() => {
-            cache.put("./userStyles.css", new Response( css,
+        cache.delete("/userStyles.css").then(() => {
+            cache.put("/userStyles.css", new Response( css,
                 {headers: {'Content-Type': 'text/css'}}
             ))
         })

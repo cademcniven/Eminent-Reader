@@ -519,6 +519,11 @@ Reader Styling
     color: var(--reader-foreground);
 }
 
+.chapterHeader {
+    width: 100%;
+    text-align: center;
+}
+
 .chapterNumber {
     font-size: 6rem;
     margin: 0;
@@ -573,4 +578,8 @@ footer {
     width: 100vw;
     z-index: 1000;
     background-color: var(--reader-background);
+}
+
+[data-text]::after {
+    content: attr(data-text);
 }
