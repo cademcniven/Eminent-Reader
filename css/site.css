@@ -39,6 +39,8 @@ Global Styling
     /* 赤紅 */
     --dropped: #C3272B;
 
+    --link-color: #8ab4f8;
+
     color: var(--foreground);
     background-color: var(--background);
 }
@@ -86,6 +88,13 @@ abbr[title] {
 */
 a:not([href]) {
     display: none;
+}
+
+a:link,
+a:visited,
+a:active,
+a:hover {
+    color: var(--link-color);
 }
 
 textarea {
@@ -319,6 +328,19 @@ nav .logo {
     100% {
         transform: translateY(300px);
     }
+}
+
+#qr {
+    display: block;
+    margin: auto;
+    max-width: 98%;
+    border: 4px solid red;
+}
+
+#qrNote {
+    margin: auto;
+    width: 300px;
+    max-width: 98%;
 }
 
 /*************************
@@ -577,6 +599,7 @@ footer {
     place-items: center;
     width: 100vw;
     z-index: 1000;
+    color: var(--reader-foreground);
     background-color: var(--reader-background);
 }
 

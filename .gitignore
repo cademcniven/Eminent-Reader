@@ -3,4 +3,3 @@ node_modules/
 .dockerignore
 Dockerfile
 settings/userSettings.json
-config.json

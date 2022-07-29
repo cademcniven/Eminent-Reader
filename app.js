@@ -2,9 +2,8 @@ const express = require('express')
 const cors = require('cors')
 const nunjucks = require('nunjucks')
 const open = require('open')
-const ngrok = require('ngrok')
-
-const config = require('./config.json')
+const computerName = require('computer-name')
+const localtunnel = require('localtunnel')
 
 const app = express()
 const PORT = process.env.PORT || 3069
@@ -60,9 +59,8 @@ app.listen(PORT, () => {
   console.log(`The Server is running at: http://localhost:${PORT}/`)
 })
 
-ngrok.connect({
-  addr: PORT,
-  authtoken: config.NGROK_AUTHTOKEN
-}).then(url => {
-  open(url)
-})
+open(`http://${computerName()}:${PORT}`)
+
+// localtunnel({ port: PORT }).then((tunnel) => {
+//   console.log(tunnel.url)
+// })

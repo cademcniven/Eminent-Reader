@@ -8,30 +8,32 @@
 
 <div class="navMenu slide-in hidden">
     <div class="navMenuHeaderSpacer"></div>
-    <h2 class="homeLink"><a href="/">Home</a></h2>
+    <canvas id="qr"></canvas>
+    <div id="qrNote">To view this site on mobile, scan the QR code above, or go
+        to <span id="siteUrl"></span> in your mobile browser.</div>
+    <h2 class="homeLink"><a href="/" data-text="Home"></a></h2>
     <div class="settings">
-        <h2>Settings</h2>
-        <h3>Theme</h3>
+        <h2 data-text="Settings"></h2>
+        <h3 data-text="Theme"></h3>
         <form name="siteThemeForm" class="settingsItem siteTheme">
-            <h4>Site Theme</h4>
+            <h4 data-text="Site Theme"></h4>
             <input type="radio" id="siteThemeLight"
                 name="siteTheme" value="light">
-            <label for="siteThemeLight">Light</label>
+            <label for="siteThemeLight" data-text="Light"></label>
 
             <input type="radio" id="siteThemeDark"
                 name="siteTheme" value="dark">
-            <label for="siteThemeDark">Dark</label>
+            <label for="siteThemeDark" data-text="Dark"></label>
 
             <input type="radio" id="siteThemeUltraLight"
                 name="siteTheme" value="ultraLight">
-            <label for="siteThemeUltraLight">Ultra Light</label>
-
+            <label for="siteThemeUltraLight" data-text="Ultra Light"></label>
             <input type="radio" id="siteThemeUltraDark"
                 name="siteTheme" value="ultraDark">
-            <label for="siteThemeUltraDark">Ultra Dark</label>
+            <label for="siteThemeUltraDark" data-text="Ultra Dark"></label>
         </form>
         <div class="settingsItem">
-            <h4>Reader Theme</h4>
+            <h4 data-text="Reader Theme"></h4>
             <dialog id="colorModal">
                 <form name="colorForm" method="dialog">
                     <div id="colorPreview">
@@ -50,20 +52,23 @@
                         <label>Apply Color:
                             <input type="radio" id="readerThemeForeground"
                                 name="readerColors" value="--reader-foreground">
-                            <label for="readerThemeForeground">Foreground</label>
+                            <label for="readerThemeForeground"
+                                data-text="Foreground"></label>
                             <input type="radio" id="readerThemeBackground"
                                 name="readerColors" value="--reader-background">
-                            <label for="readerThemeBackground">Background</label>
+                            <label for="readerThemeBackground"
+                                data-text="Background"></label>
                         </label>
                     </p>
                     <div class="modalControls">
-                        <button value="cancel">Cancel</button>
-                        <button id="colorModalConfirm" value="default">Confirm</button>
+                        <button value="cancel" data-text="Cancel"></button>
+                        <button id="colorModalConfirm" value="default"
+                            data-text="Confirm"></button>
                     </div>
                 </form>
             </dialog>
             {% for category, colors in settings.readerColors %}
-            <h5>{{category}}</h5>
+            <h5 data-text="{{category}}"></h5>
             <div class="colors">
                 {% for name, color in colors %}
                 {% if color | is_string %}

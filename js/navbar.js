@@ -9,6 +9,18 @@ logo.addEventListener('click', event => {
 })
 
 /**************************************************** 
+ * QR Code
+ ****************************************************/
+const qr = new QRious({
+    element: document.getElementById('qr'),
+    value: window.location.href,
+    size: 300
+})
+
+document.getElementById('siteUrl').innerHTML =
+    `<a href="${window.location.href}">${window.location.href}</a>`
+
+/**************************************************** 
  * site theme options
  ****************************************************/
 const siteThemeRadios = document.siteThemeForm.siteTheme
