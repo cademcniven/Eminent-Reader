@@ -92,3 +92,43 @@ sortDirection.addEventListener('click', event => {
   isDescending = !isDescending
   sortNovels()
 })
+
+/**************************************************** 
+ * Hide Category Checkboxes
+ ****************************************************/
+const hideReading = document.getElementById('hideReading')
+const hideFinished = document.getElementById('hideFinished')
+const hideDropped = document.getElementById('hideDropped')
+const hideOnHold = document.getElementById('hideOnHold')
+const hideWantToRead = document.getElementById('hideWantToRead')
+
+const reading = document.getElementsByClassName('reading')
+const finished = document.getElementsByClassName('finished')
+const dropped = document.getElementsByClassName('dropped')
+const onHold = document.getElementsByClassName('onhold')
+const wantToRead = document.getElementsByClassName('wanttoread')
+
+hideReading.addEventListener('change', () => {
+  for (let elem of reading)
+    elem.parentElement.toggleAttribute('hidden')
+})
+
+hideFinished.addEventListener('change', () => {
+  for (let elem of finished)
+    elem.parentElement.toggleAttribute('hidden')
+})
+
+hideDropped.addEventListener('change', () => {
+  for (let elem of dropped)
+    elem.parentElement.toggleAttribute('hidden')
+})
+
+hideOnHold.addEventListener('change', () => {
+  for (let elem of onHold)
+    elem.parentElement.toggleAttribute('hidden')
+})
+
+hideWantToRead.addEventListener('change', () => {
+  for (let elem of wantToRead)
+    elem.parentElement.toggleAttribute('hidden')
+})

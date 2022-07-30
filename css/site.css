@@ -156,6 +156,10 @@ button {
     border-radius: 5px;
 }
 
+label {
+    user-select: none;
+}
+
 .va-b {
     vertical-align: bottom;
 }
@@ -475,6 +479,10 @@ Novel Library Styling
 
 .sortControls {
     text-align: center;
+}
+
+#hideCategoryButtons input {
+    margin-right: 2rem;
 }
 
 /*************************

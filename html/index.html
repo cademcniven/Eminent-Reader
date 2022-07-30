@@ -31,6 +31,22 @@
                     <span class="material-icons va-b">sort_by_alpha</span>
                 </button>
 
+                <div id="hideCategoryButtons">
+                    <label for="hideReading">Hide Reading</label>
+                    <input id="hideReading" type="checkbox" />
+
+                    <label for="hideFinished">Hide Finished</label>
+                    <input id="hideFinished" type="checkbox" />
+
+                    <label for="hideDropped">Hide Dropped</label>
+                    <input id="hideDropped" type="checkbox" />
+
+                    <label for="hideOnHold">Hide On-Hold</label>
+                    <input id="hideOnHold" type="checkbox" />
+
+                    <label for="hideWantToRead">Hide Want to read</label>
+                    <input id="hideWantToRead" type="checkbox" />
+                </div>
             </div>
             <div id="library">
                 {% for novel in novels %}
