@@ -14,7 +14,7 @@ logo.addEventListener('click', event => {
 const qr = new QRious({
     element: document.getElementById('qr'),
     value: window.location.href,
-    size: 300
+    size: 150
 })
 
 document.getElementById('siteUrl').innerHTML =
