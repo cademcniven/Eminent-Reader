@@ -39,7 +39,8 @@ router.get('/:novel', async (req, res) => {
   try {
     res.status(200).render('novel.html', {
       metaData: JSON.parse(await fs.readFile(`./novels/${req.params.novel}/metadata.json`)),
-      settings: await fileLogic.GetSettings()
+      settings: await fileLogic.GetSettings(),
+      userSettings: await fileLogic.GetUserSettings()
     })
   } catch (error) {
     console.log(error)

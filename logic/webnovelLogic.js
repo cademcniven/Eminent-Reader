@@ -1,7 +1,21 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
-
 const fileLogic = require('./fileLogic')
+
+const GetChapterCharacterCount = text => {
+  text = text.replace(/[「」『』（）〔〕［］｛｝｟｠〈〉《》【】〖〗〘〙〚〛。、・…゠＝〜…‥•◦﹅﹆※＊〽〓♪♫♬♩]/g, '')
+  return text.replace(/<[^>]+>/g, '').length
+}
+
+const Sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const GetHostname = url => new URL(url).hostname
+const axiosHeaders = { headers: { 'User-Agent': 'Mozilla/5.0', cookie: 'over18=yes' } }
+const GetUrlEnding = url => {
+  url = url.split('/')
+  return url.pop() || url.pop()
+}
+
+const scrapers = new Map()
 
 exports.DownloadNovel = async url => {
   if (!url) {
@@ -18,11 +32,6 @@ exports.DownloadNovel = async url => {
     console.log('Provided url is from an unsupported host')
   }
 }
-
-const Sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-
-const GetHostname = url => new URL(url).hostname
-const axiosHeaders = { headers: { 'User-Agent': 'Mozilla/5.0' } }
 
 const AxiosGetHtml = async url => {
   try {
@@ -44,9 +53,13 @@ const AxiosGetHtml = async url => {
   }
 }
 
-const scrapers = new Map()
-scrapers.set('ncode.syosetu.com', async ($, url) => {
+scrapers.set('ncode.syosetu.com', async ($, url) => DownloadSyosetuNovel($, url))
+scrapers.set('novel18.syosetu.com', async ($, url) => DownloadSyosetuNovel($, url))
+scrapers.set('kakuyomu.jp', async ($, url) => DownloadKakuyomuNovel($, url))
+
+const DownloadSyosetuNovel = async ($, url) => {
   const baseUrl = 'https://' + GetHostname(url)
+  const key = GetUrlEnding(url)
 
   const novelMetadata = {
     title: $('.novel_title').text(),
@@ -55,7 +68,7 @@ scrapers.set('ncode.syosetu.com', async ($, url) => {
     chapters: $('.index_box a').length,
     characters: 0,
     url,
-    key: url.split('/')[3], // ncode
+    key: key, // ncode
     last_updated: Date.now()
   }
   await fileLogic.UpdateNovel(novelMetadata)
@@ -97,15 +110,11 @@ scrapers.set('ncode.syosetu.com', async ($, url) => {
   novelMetadata.chapter_data = chapterMetadata
   novelMetadata.characters = chapterMetadata[chapterMetadata.length - 1].cumulative_characters
   return fileLogic.UpdateMetadata(novelMetadata)
-})
-
-const GetChapterCharacterCount = text => {
-  text = text.replace(/[「」『』（）〔〕［］｛｝｟｠〈〉《》【】〖〗〘〙〚〛。、・…゠＝〜…‥•◦﹅﹆※＊〽〓♪♫♬♩]/g, '')
-  return text.replace(/<[^>]+>/g, '').length
 }
 
-scrapers.set('kakuyomu.jp', async ($, url) => {
+const DownloadKakuyomuNovel = async ($, url) => {
   const baseUrl = 'https://' + GetHostname(url)
+  const key = GetUrlEnding(url)
 
   const novelMetadata = {
     title: $('#workTitle').text(),
@@ -114,7 +123,7 @@ scrapers.set('kakuyomu.jp', async ($, url) => {
     chapters: $('.widget-toc-episode').length,
     characters: 0,
     url,
-    key: url.split('/')[4], // ncode
+    key: key,
     last_updated: Date.now()
   }
 
@@ -151,4 +160,4 @@ scrapers.set('kakuyomu.jp', async ($, url) => {
   novelMetadata.chapter_data = chapterMetadata
   novelMetadata.characters = chapterMetadata[chapterMetadata.length - 1].cumulative_characters
   return fileLogic.UpdateMetadata(novelMetadata)
-})
+}

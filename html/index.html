@@ -17,14 +17,36 @@
                     placeholder="https://ncode.syosetu.com/n2834dj/" autofocus
                     />
             </div>
+            <div class="sortControls">
+                <select name="sortField" id="sortField">
+                    <option value="">Sort By</option>
+                    <option value="title">Title</option>
+                    <option value="chapters">Chapters</option>
+                    <option value="characters">Characters</option>
+                    <option value="category">Category</option>
+                    <option value="updated">Last Updated</option>
+                </select>
+
+                <button type="button" id="sortDirection">
+                    <span class="material-icons va-b">sort_by_alpha</span>
+                </button>
+
+            </div>
             <div id="library">
                 {% for novel in novels %}
-                <div class="novelPanel">
+                <div class="novelPanel"
+                    data-title="{{novel.title}}"
+                    data-chapters="{{novel.chapters}}"
+                    data-characters="{{novel.characters}}"
+                    data-category="{{novel.category}}"
+                    data-updated="{{novel.last_updated}}">
                     <div class="novelPanelTitle {{novel.category |
                         stripWhitespace}}"><a
                             href="/webnovel/{{novel.key}}">{{novel.title}}</a></div>
                     <div>全{{novel.chapters | toLocaleString}}部分</div>
                     <div>{{novel.characters | toLocaleString}}文字</div>
+                    <div>Last Updated: {{novel.last_updated |
+                        toLocaleDateString}}</div>
                     {% if novel.rating %}
                     <div class="ratingWrapper">
                         <div class="rating">

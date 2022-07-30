@@ -17,6 +17,7 @@ Global Styling
     font-display: swap;
     font-size: 16px;
     text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
     quotes: "\201c""\201d""\2018""\2019";
 
     --foreground: #373D3F;
@@ -99,6 +100,10 @@ a:hover {
 
 textarea {
     resize: none;
+    background-color: var(--background);
+    color: var(--foreground);
+    border: 2px solid var(--foreground);
+    border-radius: 5px;
 }
 
 .sr-only:not(:focus):not(:active) {
@@ -129,6 +134,30 @@ details summary {
 
 ruby>rt {
     font-size: 50%;
+}
+
+select {
+    height: 2.5em;
+    display: inline-block;
+    max-width: 100%;
+    position: relative;
+    vertical-align: top;
+    background-color: var(--background);
+    color: var(--foreground);
+    border: 2px solid var(--foreground);
+    border-radius: 5px;
+}
+
+button {
+    height: 2.5em;
+    background-color: var(--background);
+    color: var(--foreground);
+    border: 2px solid var(--foreground);
+    border-radius: 5px;
+}
+
+.va-b {
+    vertical-align: bottom;
 }
 
 /*************************
@@ -346,6 +375,10 @@ nav .logo {
 /*************************
 Novel Library Styling
 **************************/
+#library {
+    margin-top: 3rem;
+}
+
 .downloadSearchBar {
     display: block;
     max-width: 95%;
@@ -400,7 +433,6 @@ Novel Library Styling
 .novelPanelTitle {
     font-size: 2.5rem;
     white-space: pre-line;
-    -webkit-font-smoothing: antialiased;
 }
 
 .novelPanelDescription {
@@ -410,7 +442,6 @@ Novel Library Styling
     font-size: 1.5rem;
     text-align: left !important;
     white-space: pre-line;
-    -webkit-font-smoothing: antialiased;
     line-height: 180%;
 }
 
@@ -442,6 +473,10 @@ Novel Library Styling
     color: var(--dropped)
 }
 
+.sortControls {
+    text-align: center;
+}
+
 /*************************
 Novel Info Styling
 **************************/
@@ -453,7 +488,6 @@ Novel Info Styling
     max-width: max(45ch, 60%);
     margin: 4rem auto;
     line-height: 180%;
-    -webkit-font-smoothing: antialiased;
 }
 
 .chapters {
@@ -549,14 +583,13 @@ Reader Styling
 .chapterNumber {
     font-size: 6rem;
     margin: 0;
-    -webkit-font-smoothing: antialiased;
+
 }
 
 .chapterTitle {
     display: none;
     margin: 0;
     font-size: 2rem;
-    -webkit-font-smoothing: antialiased;
 }
 
 .chapter {
@@ -566,11 +599,11 @@ Reader Styling
     max-width: 45ch;
     font-size: 2rem;
     line-height: 180%;
-    -webkit-font-smoothing: antialiased;
 
     /* align first quote to the left of text block */
     text-indent: -1em;
     padding-left: 1em;
+    margin-left: -0.5em;
 }
 
 .chapter p {

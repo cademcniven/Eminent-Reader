@@ -14,6 +14,10 @@ const nunjucksEnv = nunjucks.configure('html', {
 })
 
 nunjucksEnv.addFilter('toLocaleString', (num) => Number(num).toLocaleString('en'))
+nunjucksEnv.addFilter('toLocaleDateString', (s) => {
+  let date = new Date(s)
+  return date.toLocaleDateString('en-US')
+})
 nunjucksEnv.addFilter('trim', (str) => str.trim())
 nunjucksEnv.addFilter('stripWhitespace', (str) => {
   if (str)
