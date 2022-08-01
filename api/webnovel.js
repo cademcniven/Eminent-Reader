@@ -9,7 +9,12 @@ module.exports = router
 
 router.post('/', async (req, res) => {
   await webnovelLogic.DownloadNovel(req.body.url)
-  res.status(200).send('test')
+  res.status(200)
+})
+
+router.post('/epub', async (req, res) => {
+  await webnovelLogic.DownloadEpub(req.files)
+  res.status(200)
 })
 
 router.get('/getUserSettings', async (req, res) => {

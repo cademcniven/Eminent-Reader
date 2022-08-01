@@ -20,3 +20,5 @@ chapterHeader.addEventListener("mouseover", () => {
 chapterHeader.addEventListener("mouseleave", () => {
   document.getElementsByClassName("chapterTitle")[0].style.display = "none";
 })
+
+screen.orientation.lock('portrait')

@@ -4,21 +4,28 @@
   "description": "A self-hosted reading app for japanese webnovels and ebooks",
   "main": "app.js",
   "dependencies": {
+    "@gxl/epub-parser": "^2.0.4",
+    "adm-zip": "^0.5.9",
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.11",
     "computer-name": "^0.1.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
     "express-promise-router": "^4.1.1",
     "fasttunnel": "^2.0.1",
+    "jsdom": "^15.2.1",
     "localtunnel": "^2.0.2",
     "ngrok": "^4.3.1",
     "nunjucks": "^3.2.3",
     "nunjucks-to-html": "^1.1.0",
     "open": "^8.4.0",
-    "path": "^0.12.7"
+    "patch-package": "^6.4.7",
+    "path": "^0.12.7",
+    "xml-parse": "^0.4.0"
   },
   "devDependencies": {
+    "@types/jszip": "^3.4.1",
     "standard": "^17.0.0"
   }
 }

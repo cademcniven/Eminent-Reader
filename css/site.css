@@ -613,6 +613,12 @@ Reader Styling
     margin-left: -0.5em;
 }
 
+.chapter img {
+    display: block;
+    margin: auto;
+    max-width: calc(100% + 1em);
+}
+
 .chapter p {
     margin: 0;
     hanging-punctuation: first allow-end;

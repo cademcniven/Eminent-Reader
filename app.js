@@ -3,6 +3,8 @@ const cors = require('cors')
 const nunjucks = require('nunjucks')
 const open = require('open')
 const computerName = require('computer-name')
+const fileUpload = require('express-fileupload')
+
 const localtunnel = require('localtunnel')
 
 const app = express()
@@ -38,6 +40,9 @@ nunjucksEnv.addFilter('convertCssProperty', str => {
   return str.replaceAll('_', '-')
 })
 
+app.use(fileUpload({
+  createParentPath: true
+}))
 app.use(cors())
 app.use(
   express.urlencoded({

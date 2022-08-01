@@ -82,3 +82,7 @@ exports.SetUserSettings = async (settings) => {
 exports.GetSettings = async () => {
   return JSON.parse(await fs.readFile('./settings/settings.json'))
 }
+
+exports.SaveImage = async (novel, filename, image) => {
+  fs.writeFile(`${rootFolder}/${novel}/${filename}`, image)
+}

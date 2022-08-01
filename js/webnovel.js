@@ -1,5 +1,5 @@
 /**************************************************** 
- * Download novel
+ * Download web novel
  ****************************************************/
 async function postData(url = '', data = {}) {
   const response = await fetch(url, {
@@ -23,6 +23,28 @@ function DownloadWebnovel() {
 
   document.getElementById('novelUrl').value = ''
 }
+
+/**************************************************** 
+ * Download ebook
+ ****************************************************/
+const fileUploadButton = document.getElementById('ebookUploadButton')
+
+fileUploadButton.addEventListener('change', (event) => {
+  let files = event.target.files
+
+  for (let file of files) {
+    if (file.type === 'application/epub+zip') {
+      let formData = new FormData()
+      formData.append('file', file)
+
+      fetch('/webnovel/epub', {
+        method: 'POST',
+        referrerPolicy: 'no-referrer',
+        body: formData
+      }).then(res => console.log(res))
+    }
+  }
+})
 
 /**************************************************** 
  * Submit search on enter press

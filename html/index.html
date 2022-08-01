@@ -17,6 +17,8 @@
                     placeholder="https://ncode.syosetu.com/n2834dj/" autofocus
                     />
             </div>
+            <input id="ebookUploadButton" type="file" name="fileToUpload"
+                class="upload" accept=".epub" />
             <div class="sortControls">
                 <select name="sortField" id="sortField">
                     <option value="">Sort By</option>
@@ -95,7 +97,7 @@
                     </div>
                     {% endif %}
                     <details class="novelPanelDescription">
-                        <summary><i class="gg-select"></i></summary>
+                        <summary><i class="material-icons">unfold_more</i></summary>
                         <div>{{novel.description | trim}}</div>
                     </details>
                 </div>

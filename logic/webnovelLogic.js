@@ -1,6 +1,10 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
 const fileLogic = require('./fileLogic')
+const AdmZip = require('adm-zip')
+const xml = require('xml-parse')
+const jsdom = require("jsdom")
+const { JSDOM } = jsdom
 
 const GetChapterCharacterCount = text => {
   text = text.replace(/[「」『』（）〔〕［］｛｝｟｠〈〉《》【】〖〗〘〙〚〛。、・…゠＝〜…‥•◦﹅﹆※＊〽〓♪♫♬♩]/g, '')
@@ -160,4 +164,232 @@ const DownloadKakuyomuNovel = async ($, url) => {
   novelMetadata.chapter_data = chapterMetadata
   novelMetadata.characters = chapterMetadata[chapterMetadata.length - 1].cumulative_characters
   return fileLogic.UpdateMetadata(novelMetadata)
+}
+
+exports.DownloadEpub = async (files) => {
+  const entries = GetXmlEntries(files.file.data)
+  const contentOpf = GetContentOpf(entries)
+  const key = Date.now()
+
+  //console.log(entries)
+
+  let chapters = GetChapters(contentOpf, entries)
+  let images = GetImages(contentOpf, entries)
+
+  const novelMetadata = {
+    title: 'test',
+    description: '',
+    author: '',
+    chapters: chapters.length,
+    characters: 0,
+    url: '',
+    key: key,
+    last_updated: Date.now()
+  }
+
+  await fileLogic.UpdateNovel(novelMetadata)
+
+  //save all images to novel folder
+  for (let image of images) {
+    let filename = image.filename.split('/').pop()
+    await fileLogic.SaveImage(key, filename, image.entry.getData())
+  }
+
+  const chapterMetadata = []
+  let chapterData = {}
+  let i = 0
+  for (let chapter of chapters) {
+    let body = chapter.entry.getData().toString().match(/<body.*?>([\s\S]*)<\/body>/)[0]
+
+    let dom = new JSDOM(body)
+    let srcs = dom.window.document.querySelectorAll('img')
+    for (let src of srcs)
+      src.src = `/novels/${key}/${src.src.split('/').pop()}`
+
+    body = dom.window.document.body.innerHTML
+
+    chapterData = {
+      title: chapter.title,
+      // the regex removes all <br> elements and <p> elements that contain only whitespace
+      chapter: body/*.replace(/(<|&lt;)br\s*\/*(>|&gt;)/g, ' ').replace(/<p.*> *<\/p>/g, ' ')*/,
+      chapter_number: i + 1
+    }
+
+    chapterData.characters = GetChapterCharacterCount(chapterData.chapter)
+
+    await fileLogic.DownloadChapter(chapterData, i + 1, novelMetadata)
+    chapterMetadata.push({
+      title: chapterData.title,
+      chapter_number: i + 1,
+      characters: chapterData.characters,
+      cumulative_characters: chapterData.characters + ((i === 0) ? 0 : chapterMetadata[i - 1].cumulative_characters)
+    })
+
+    i++
+  }
+
+  novelMetadata.chapter_data = chapterMetadata
+  novelMetadata.characters = chapterMetadata[chapterMetadata.length - 1].cumulative_characters
+  return fileLogic.UpdateMetadata(novelMetadata)
+}
+
+/*
+  epub is a zip containing xml files, as well as resources
+  linked to by those xml files (such as images).
+  an epub has to contain a file called container.xml to be valid.
+  the only purpose of container.xml is to provide the relative
+  location of of the content.opf file
+*/
+const GetXmlEntries = (data) => {
+  const zip = new AdmZip(data)
+  const zipEntries = zip.getEntries()
+
+  let entries = {}
+  for (let entry of zipEntries) {
+    entries[entry.name] = entry
+  }
+
+  if (!entries['container.xml'])
+    throw ('epub file does not contain "container.xml"')
+
+  return entries
+}
+
+/*
+  the opf file contains metadata about an epub, and is
+  the primary source of information about how to process it
+*/
+const GetContentOpf = (entries) => {
+  if (entries['content.opf'])
+    return entries['content.opf']
+
+  const parsed = xml.parse(entries['container.xml'].getData().toString())
+  const xmlDoc = new xml.DOM(parsed)
+
+  let rootfiles = xmlDoc.document.getElementsByTagName('rootfile')
+
+  for (let rootfile of rootfiles) {
+    if (rootfile.attributes['media-type'] === 'application/oebps-package+xml')
+      return entries[rootfile.attributes['full-path']]
+  }
+
+  throw ('Could not locate content.opf')
+}
+
+const GetChapters = (opf, entries) => {
+  const parsed = xml.parse(opf.getData().toString())
+  const xmlDoc = new xml.DOM(parsed)
+
+  let chapters = []
+
+  //ncx files are relics from epub2, but some epub3 files still have them for
+  //compatibility. ncx files contain ToC info
+  let ncx = xmlDoc.document.getElementsByAttribute('media-type', 'application/x-dtbncx+xml')
+  //nav files are like ncx but for epub3
+  let nav = xmlDoc.document.getElementsByAttribute('properties', 'nav')
+
+  if (ncx.length) {
+    ncx = entries[ncx[0].attributes['href']]
+    chapters = GetNcxChapterInfo(ncx, entries)
+  } else if (nav.length) {
+    nav = entries[nav[0].attributes['href']]
+    chapters = GetNavChapterInfo(nav, entries)
+  }
+
+  return chapters
+}
+
+const GetImages = (opf, entries) => {
+  const parsed = xml.parse(opf.getData().toString())
+  const xmlDoc = new xml.DOM(parsed)
+
+  let images = []
+
+  let jpegs = xmlDoc.document.getElementsByAttribute('media-type', 'image/jpeg')
+  let jpgs = xmlDoc.document.getElementsByAttribute('media-type', 'image/jpg')
+  let pngs = xmlDoc.document.getElementsByAttribute('media-type', 'image/png')
+  let gifs = xmlDoc.document.getElementsByAttribute('media-type', 'gif')
+
+  for (let jpeg of jpegs) {
+    let href = jpeg.attributes['href']
+    images.push({
+      filename: href,
+      entry: entries[href] || entries[href.split('/').pop()]
+    })
+  }
+
+  for (let jpg of jpgs) {
+    let href = jpg.attributes['href']
+    images.push({
+      filename: href,
+      entry: entries[href] || entries[href.split('/').pop()]
+    })
+  }
+
+  for (let png of pngs) {
+    let href = png.attributes['href']
+    images.push({
+      filename: href,
+      entry: entries[href] || entries[href.split('/').pop()]
+    })
+  }
+
+  for (let gif of gifs) {
+    let href = gif.attributes['href']
+    images.push({
+      filename: href,
+      entry: entries[href] || entries[href.split('/').pop()]
+    })
+  }
+
+
+  return images
+}
+
+const GetNcxChapterInfo = (ncx, entries) => {
+  const ncxParsed = xml.parse(ncx.getData().toString())
+  const ncxDom = new xml.DOM(ncxParsed)
+
+  let chapters = []
+
+  let navpoints = ncxDom.document.getElementsByTagName('navPoint')
+  for (let navpoint of navpoints) {
+    let title = navpoint.getElementsByTagName('text')[0].innerXML
+    let src = navpoint.getElementsByTagName('content')[0].attributes['src']
+    let entry = entries[src] || entries[src.split('/').pop()]
+
+    if (title && entry) {
+      chapters.push({
+        title,
+        entry
+      })
+    }
+  }
+
+  return chapters
+}
+
+const GetNavChapterInfo = (nav, entries) => {
+  const navParsed = xml.parse(nav.getData().toString())
+  const navDom = new xml.DOM(navParsed)
+
+  let chapters = []
+
+  let navElem = navDom.document.getElementsByAttribute('epub:type', 'toc')[0]
+  let links = navElem.getElementsByTagName('a')
+
+  for (let link of links) {
+    let title = link.innerXML
+    let src = link.attributes['href']
+    let entry = entries[src] || entries[src.split('/').pop()]
+
+    if (title && entry) {
+      chapters.push({
+        title,
+        entry
+      })
+    }
+  }
+
+  return chapters
 }
