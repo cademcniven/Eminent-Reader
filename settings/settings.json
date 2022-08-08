@@ -1,5 +1,9 @@
 {
   "readerColors": {
+    "Monochrome": {
+      "Kakuyomu White": "#f0f0f0",
+      "Kakuyomu Dark": "#171b1d"
+    },
     "Pantone Color of the Year": {
       "Very Peri": "#6667ab",
       "Ultimate Gray": "#939597",
